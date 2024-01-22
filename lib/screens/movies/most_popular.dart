@@ -34,7 +34,7 @@ class _MostPopularState extends State<MostPopular> {
                     Padding(
                       padding: const EdgeInsets.only(top: 0.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.7,
+                        height: MediaQuery.of(context).size.height * 0.75,
                         child: new SwipeCard(
                           allowVerticalMovement: false,
                           stackNum: 3,
@@ -63,7 +63,7 @@ class _MostPopularState extends State<MostPopular> {
                                 Positioned(
                                   left:
                                       MediaQuery.of(context).size.width * 0.05,
-                                  bottom: 80,
+                                  bottom: 120,
                                   child: Center(
                                     child: Container(
                                         alignment: Alignment.bottomCenter,
@@ -92,6 +92,29 @@ class _MostPopularState extends State<MostPopular> {
                                           ),
                                         )),
                                   ),
+                                ),
+                                Positioned(
+                                  right: 10,
+                                  bottom: 70,
+                                  child: TextButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll<Color>(
+                                                  Colors.grey
+                                                      .withOpacity(0.5))),
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: [
+                                          Text("WATCH TRAILER",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                          SizedBox(
+                                            width: 2,
+                                          ),
+                                          Image.asset('assets/youtube.png',
+                                              width: 20, height: 20)
+                                        ],
+                                      )),
                                 ),
                                 Positioned(
                                   bottom: 0,

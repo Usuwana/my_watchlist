@@ -34,7 +34,7 @@ class _NowPlayingState extends State<NowPlaying> {
                     Padding(
                       padding: const EdgeInsets.only(top: 0.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.7,
+                        height: MediaQuery.of(context).size.height * 0.75,
                         child: new SwipeCard(
                           allowVerticalMovement: false,
                           stackNum: 3,
