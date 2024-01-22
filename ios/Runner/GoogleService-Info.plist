@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>292910756994-m2mj61krlcich6mr26hml9fhrfhchi27.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.292910756994-m2mj61krlcich6mr26hml9fhrfhchi27</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>292910756994-h7hd83r27hkhr2t2d0mcqbrc7letcf9m.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBXOoLG_AE-z08v6xi_QELixPUZIS-SHKc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>292910756994</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>dev.usuwana.myWatchlist</string>
+	<key>PROJECT_ID</key>
+	<string>tinder-for-movies-814ad</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tinder-for-movies-814ad.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:292910756994:ios:93f4d670f343ec5795709b</string>
+</dict>
+</plist>

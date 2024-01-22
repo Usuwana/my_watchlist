@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "292910756994",
+    "project_id": "tinder-for-movies-814ad",
+    "storage_bucket": "tinder-for-movies-814ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292910756994:android:035e4cf5dee9065795709b",
+        "android_client_info": {
+          "package_name": "com.usuwana.minder.tinder_for_movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292910756994-h7hd83r27hkhr2t2d0mcqbrc7letcf9m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.usuwana.minder.tinder_for_movies",
+            "certificate_hash": "7f44d8a0605cb21c5e5513d7e1cc84ecd952d0f5"
+          }
+        },
+        {
+          "client_id": "292910756994-gc1fho065jk47jcbtg97togdq8ul9ugl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRYm0lPlPzt_YQBuzPlJnfWSl_uQQAqVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292910756994-gc1fho065jk47jcbtg97togdq8ul9ugl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "292910756994-6ph47e8mkdntog2ugomdg1g80m8hicm4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.usuwana.watchlist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292910756994:android:59b6263fb3a43dc095709b",
+        "android_client_info": {
+          "package_name": "dev.usuwana.my_watchlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292910756994-gc1fho065jk47jcbtg97togdq8ul9ugl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRYm0lPlPzt_YQBuzPlJnfWSl_uQQAqVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292910756994-gc1fho065jk47jcbtg97togdq8ul9ugl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "292910756994-6ph47e8mkdntog2ugomdg1g80m8hicm4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.usuwana.watchlist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292910756994:android:2fe9306747fb167895709b",
+        "android_client_info": {
+          "package_name": "dev.usuwana.watchlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292910756994-gc1fho065jk47jcbtg97togdq8ul9ugl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRYm0lPlPzt_YQBuzPlJnfWSl_uQQAqVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292910756994-gc1fho065jk47jcbtg97togdq8ul9ugl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "292910756994-6ph47e8mkdntog2ugomdg1g80m8hicm4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.usuwana.watchlist"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
