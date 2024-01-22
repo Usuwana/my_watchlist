@@ -23,3 +23,4 @@ export 'package:my_watchlist/screens/series/ontheAir.dart';
 export 'package:my_watchlist/screens/series/popularSeries.dart';
 export 'package:my_watchlist/screens/series/topRated.dart';
 export 'package:my_watchlist/screens/series/likedSeries.dart';
+export 'package:youtube_video_player/youtube_video_player.dart';

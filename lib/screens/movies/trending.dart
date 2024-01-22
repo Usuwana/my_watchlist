@@ -212,7 +212,8 @@ class _TrendingState extends State<Trending> {
                                 api.addLiked(
                                     api.trendingPostersLink[index],
                                     api.trendingTitles[index],
-                                    api.trendingOverviews[index]);
+                                    api.trendingOverviews[index],
+                                    api.trendingIDs[index]);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(

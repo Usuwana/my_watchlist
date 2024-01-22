@@ -211,7 +211,8 @@ class _NowPlayingState extends State<NowPlaying> {
                                 api.addLiked(
                                     api.playingPostersLink[index],
                                     api.playingTitles[index],
-                                    api.playingOverviews[index]);
+                                    api.playingOverviews[index],
+                                    api.playingIDs[index]);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(

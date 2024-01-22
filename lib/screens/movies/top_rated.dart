@@ -213,7 +213,8 @@ class _TopRatedState extends State<TopRated> {
                                 api.addLiked(
                                     api.ratedPostersLink[index],
                                     api.ratedTitles[index],
-                                    api.ratedOverviews[index]);
+                                    api.ratedOverviews[index],
+                                    api.ratedIDs[index]);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(
