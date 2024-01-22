@@ -5,6 +5,11 @@ import '../../utils/imports.dart';
 import 'package:readmore/readmore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_tinder_swipe/flutter_tinder_swipe.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_video_player/potrait_player.dart';
 
 class UpcomingMovies extends StatefulWidget {
   const UpcomingMovies({Key? key}) : super(key: key);
@@ -15,10 +20,87 @@ class UpcomingMovies extends StatefulWidget {
 
 class _UpcomingMoviesState extends State<UpcomingMovies> {
   APImovies api = new APImovies();
+  late YoutubePlayerController _controller;
+  List<dynamic> trailerValues = [];
+  late String trailerYouTubeID = '';
+  bool _showTrailer = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> _getMovieTrailer(int id) async {
+    // this url hits the TMDb videos endpoint based on the supplied movieID (the current movie whose videos we want to fetch)
+    final response = await get(Uri.parse(
+        'http://api.themoviedb.org/3/movie/${id}/videos?api_key=01654b20e22c2a6a6d22085d00bd3373'));
+    //final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      trailerValues = data.values.toList()[1];
+      for (var trailer in trailerValues) {
+        // since there are so many types of videos, we just want to get the key to the official trailer
+        if (trailer['name'] == 'Official Trailer') {
+          setState(() {
+            // set the trailer ID fetched from the video object
+            trailerYouTubeID = trailer['key'];
+          });
+          break;
+        }
+      }
+    } else {
+      throw Exception('Failed to load movie videos.');
+    }
+  }
+
+  void showMovieTrailerDialog(BuildContext context) {
+    _controller = YoutubePlayerController(
+      initialVideoId: trailerYouTubeID,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          insetPadding: const EdgeInsets.all(10),
+          backgroundColor: Colors.transparent,
+          content: YoutubePlayer(
+            // content of the alert dialog is our YT video
+            controller: _controller,
+            showVideoProgressIndicator: true,
+            onReady: () => debugPrint('Ready'), // for debugging purposes only
+            bottomActions: [
+              CurrentPosition(),
+              ProgressBar(
+                isExpanded: true,
+                colors: const ProgressBarColors(
+                  playedColor: Colors.orange,
+                  handleColor: Colors.orangeAccent,
+                ),
+              ),
+              const PlaybackSpeedButton(),
+              FullScreenButton(),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'Close',
+                style: TextStyle(fontSize: 13, color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -102,7 +184,41 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
                                         backgroundColor:
                                             MaterialStatePropertyAll<Color>(
                                                 Colors.grey.withOpacity(0.5))),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      _getMovieTrailer(api.popularIDs[index]);
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 40,
+                                                height: 40,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                      Future.delayed(Duration(seconds: 4), () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                        if (trailerYouTubeID == '') {
+                                          const snackBar = SnackBar(
+                                            content: Text(
+                                                'Movie trailer not available'),
+                                            backgroundColor: Colors.black,
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          _showTrailer == false;
+                                        } else {
+                                          showMovieTrailerDialog(context);
+                                          _showTrailer == false;
+                                          trailerYouTubeID == '';
+                                        }
+                                      });
+                                    },
                                     child: Row(
                                       children: [
                                         Text("WATCH TRAILER",

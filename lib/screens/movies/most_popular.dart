@@ -372,37 +372,4 @@ class _MostPopularState extends State<MostPopular> {
               );
             }));
   }
-
-  Future<dynamic> launchVid(int index) async {
-    Future<dynamic> key = api.getTrailer(api.popularIDs[index]);
-    await Future.delayed(Duration(seconds: 2));
-    if (key == '') {
-      const snackBar = SnackBar(
-        content: Text('Movie trailer not available'),
-        backgroundColor: Colors.black,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
-      showMovieTrailerDialog(context);
-    }
-    /*FutureBuilder(
-        future: api.getTrailer(api.popularIDs[index]),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            showMovieTrailerDialog(context, key as String);
-          } else if (snapshot.hasError) {
-            const snackBar = SnackBar(
-              content: Text('Movie trailer not available'),
-              backgroundColor: Colors.black,
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-          return Center(
-            child: Container(
-              child: LoadingAnimationWidget.inkDrop(
-                  color: Colors.green, size: 100),
-            ),
-          );
-        });*/
-  }
 }
