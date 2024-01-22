@@ -24,6 +24,7 @@ class _MostPopularState extends State<MostPopular> {
   late YoutubePlayerController _controller;
   List<dynamic> trailerValues = [];
   late String trailerYouTubeID = '';
+  bool _showTrailer = false;
 
   @override
   void initState() {
@@ -187,19 +188,39 @@ class _MostPopularState extends State<MostPopular> {
                                       onPressed: () async {
                                         //await launchVid(index);
                                         _getMovieTrailer(api.popularIDs[index]);
-                                        await Future.delayed(
-                                            Duration(seconds: 5));
-                                        if (trailerYouTubeID == '') {
-                                          const snackBar = SnackBar(
-                                            content: Text(
-                                                'Movie trailer not available'),
-                                            backgroundColor: Colors.black,
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        } else {
-                                          showMovieTrailerDialog(context);
-                                        }
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 40,
+                                                  height: 40,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                        Future.delayed(Duration(seconds: 4),
+                                            () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                          if (trailerYouTubeID == '') {
+                                            const snackBar = SnackBar(
+                                              content: Text(
+                                                  'Movie trailer not available'),
+                                              backgroundColor: Colors.black,
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            _showTrailer == false;
+                                          } else {
+                                            showMovieTrailerDialog(context);
+                                            _showTrailer == false;
+                                            trailerYouTubeID == '';
+                                          }
+                                        });
                                       },
                                       child: Row(
                                         children: [
