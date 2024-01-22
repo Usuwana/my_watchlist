@@ -95,6 +95,28 @@ class _OnAirState extends State<OnAir> {
                                 ),
                               ),
                               Positioned(
+                                right: 10,
+                                top: 0,
+                                child: TextButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll<Color>(
+                                                Colors.grey.withOpacity(0.5))),
+                                    onPressed: () {},
+                                    child: Row(
+                                      children: [
+                                        Text("WATCH TRAILER",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Image.asset('assets/youtube.png',
+                                            width: 20, height: 20)
+                                      ],
+                                    )),
+                              ),
+                              Positioned(
                                 bottom: 0,
                                 child: Container(
                                     width: MediaQuery.of(context).size.width,

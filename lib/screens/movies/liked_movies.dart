@@ -70,36 +70,53 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                 0.9,
                                         child: Row(
                                           children: [
-                                            Container(
-                                              height: 100,
-                                              width: 100,
-                                              child: Image.network(
-                                                api.baseURL +
-                                                    api.likedPosters[index],
-                                                fit: BoxFit.fill,
-                                                loadingBuilder:
-                                                    (BuildContext context,
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  child: Image.network(
+                                                    api.baseURL +
+                                                        api.likedPosters[index],
+                                                    fit: BoxFit.fill,
+                                                    loadingBuilder: (BuildContext
+                                                            context,
                                                         Widget child,
                                                         ImageChunkEvent?
                                                             loadingProgress) {
-                                                  if (loadingProgress == null)
-                                                    return child;
-                                                  return Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Colors.blueGrey,
-                                                      value: loadingProgress
-                                                                  .expectedTotalBytes !=
-                                                              null
-                                                          ? loadingProgress
-                                                                  .cumulativeBytesLoaded /
-                                                              loadingProgress
-                                                                  .expectedTotalBytes!
-                                                          : null,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
+                                                      if (loadingProgress ==
+                                                          null) return child;
+                                                      return Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color:
+                                                              Colors.blueGrey,
+                                                          value: loadingProgress
+                                                                      .expectedTotalBytes !=
+                                                                  null
+                                                              ? loadingProgress
+                                                                      .cumulativeBytesLoaded /
+                                                                  loadingProgress
+                                                                      .expectedTotalBytes!
+                                                              : null,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  splashColor: Colors.blue,
+                                                  icon: Image.asset(
+                                                    'assets/youtube.png',
+                                                    width: 30,
+                                                    height: 30,
+                                                  ),
+                                                  onPressed: () {},
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 5,
                                             ),
                                             Column(
                                               children: [

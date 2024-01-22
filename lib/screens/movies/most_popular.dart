@@ -95,7 +95,7 @@ class _MostPopularState extends State<MostPopular> {
                                 ),
                                 Positioned(
                                   right: 10,
-                                  bottom: 70,
+                                  top: 0,
                                   child: TextButton(
                                       style: ButtonStyle(
                                           backgroundColor:
