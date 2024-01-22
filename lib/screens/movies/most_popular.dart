@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:youtube_video_player/potrait_player.dart';
 
@@ -19,15 +22,40 @@ class MostPopular extends StatefulWidget {
 class _MostPopularState extends State<MostPopular> {
   APImovies api = new APImovies();
   late YoutubePlayerController _controller;
+  List<dynamic> trailerValues = [];
+  late String trailerYouTubeID = '';
 
   @override
   void initState() {
     super.initState();
   }
 
-  void showMovieTrailerDialog(BuildContext context, String id) {
+  Future<void> _getMovieTrailer(int id) async {
+    // this url hits the TMDb videos endpoint based on the supplied movieID (the current movie whose videos we want to fetch)
+    final response = await get(Uri.parse(
+        'http://api.themoviedb.org/3/movie/${id}/videos?api_key=01654b20e22c2a6a6d22085d00bd3373'));
+    //final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      trailerValues = data.values.toList()[1];
+      for (var trailer in trailerValues) {
+        // since there are so many types of videos, we just want to get the key to the official trailer
+        if (trailer['name'] == 'Official Trailer') {
+          setState(() {
+            // set the trailer ID fetched from the video object
+            trailerYouTubeID = trailer['key'];
+          });
+          break;
+        }
+      }
+    } else {
+      throw Exception('Failed to load movie videos.');
+    }
+  }
+
+  void showMovieTrailerDialog(BuildContext context) {
     _controller = YoutubePlayerController(
-      initialVideoId: id,
+      initialVideoId: trailerYouTubeID,
       flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
@@ -156,10 +184,11 @@ class _MostPopularState extends State<MostPopular> {
                                               MaterialStatePropertyAll<Color>(
                                                   Colors.grey
                                                       .withOpacity(0.5))),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         //await launchVid(index);
-                                        var trailerYouTubeID =
-                                            'https://www.youtube.com/watch?v=vt-IJkUbAxY';
+                                        _getMovieTrailer(api.popularIDs[index]);
+                                        await Future.delayed(
+                                            Duration(seconds: 5));
                                         if (trailerYouTubeID == '') {
                                           const snackBar = SnackBar(
                                             content: Text(
@@ -169,8 +198,7 @@ class _MostPopularState extends State<MostPopular> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
                                         } else {
-                                          showMovieTrailerDialog(
-                                              context, trailerYouTubeID);
+                                          showMovieTrailerDialog(context);
                                         }
                                       },
                                       child: Row(
@@ -334,7 +362,7 @@ class _MostPopularState extends State<MostPopular> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
-      showMovieTrailerDialog(context, key as String);
+      showMovieTrailerDialog(context);
     }
     /*FutureBuilder(
         future: api.getTrailer(api.popularIDs[index]),
