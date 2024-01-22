@@ -1,16 +1,22 @@
-# my_watchlist
+# Tinder For Movies
 
-A new Flutter project.
+A tinder inspired movie/series liking application. Developed using Flutter. The user swipes right to like a movie/series based on the poster and descriptions given and it is added to their liked movies/series which they can later refer to. User can also swipe left to dislike a movie/series.
 
-## Getting Started
+# Features
 
-This project is a starting point for a Flutter application.
+<ul>
+  <li>Displays poster, title and description of movies and series</li>
+  <li>Shows upcoming movies</li>
+  <li>Shows trending movies</li>
+  <li>Shows movies and series currently playing</li>
+  <li>Shows most popular movies and series</li>
+  <li>Shows top rated movies and series</li>
+  <li>Shows liked movies and series</li>
+ </ul>
+    
 
-A few resources to get you started if this is your first Flutter project:
+# Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/one.png" width="250" height="500"> <img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/two.png" width="250" height="500">
+<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/three.png" width="250" height="500"> <img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/four.png" width="250" height="500">
+<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/five.png" width="250" height="500"> <img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/six.png" width="250" height="500">
