@@ -31,7 +31,10 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, ThemeMode themeMode) {
       return MaterialApp(
         home: SplashView(
-          logo: Text("assets/app_logo.png"),
+          logo: Image.asset(
+            "assets/app_logo.png", width: 200, // Set the width of the image
+            height: 200,
+          ),
           done: Done(AuthGate()),
           duration: Duration(seconds: 3),
           backgroundColor: Colors.black,
