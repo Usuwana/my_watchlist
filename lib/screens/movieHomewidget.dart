@@ -115,7 +115,7 @@ class _MovieHomeWidgetState extends State<MovieHomeWidget> {
                   },
                 ),
                 ListTile(
-                  title: Text('About Telly-Record'),
+                  title: Text('About the application'),
                   onTap: () {
                     Navigator.push(
                       context,
