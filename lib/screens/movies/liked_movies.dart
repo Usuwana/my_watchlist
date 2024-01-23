@@ -28,6 +28,13 @@ class _LikedMoviesState extends State<LikedMovies> {
     super.initState();
   }
 
+  void reloadData() {
+    // Simulate reloading data, fetching new data, or any other update
+    setState(() {
+      super.initState();
+    });
+  }
+
   Future<void> _getMovieTrailer(int id) async {
     // this url hits the TMDb videos endpoint based on the supplied movieID (the current movie whose videos we want to fetch)
     final response = await get(Uri.parse(
@@ -187,7 +194,7 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                     },
                                                   ),
                                                 ),
-                                                IconButton(
+                                                /*IconButton(
                                                   splashColor: Colors.blue,
                                                   icon: Image.asset(
                                                     'assets/youtube.png',
@@ -218,6 +225,7 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                         () {
                                                       Navigator.of(context)
                                                           .pop(); // Close the dialog
+
                                                       if (trailerYouTubeID ==
                                                           '') {
                                                         const snackBar =
@@ -240,7 +248,7 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                       }
                                                     });
                                                   },
-                                                ),
+                                                ),*/
                                               ],
                                             ),
                                             SizedBox(
@@ -298,15 +306,18 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                         color: Colors.black,
                                                       )),
                                                 ),
-                                                Positioned(
-                                                    right: 0,
-                                                    bottom: 0,
-                                                    child: Text(
-                                                        'Swipe to delete',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w100,
-                                                            fontSize: 10)))
+                                                Center(
+                                                  child: Positioned(
+                                                      right: 0,
+                                                      bottom: 0,
+                                                      child: Text(
+                                                          '<- Swipe to delete ->',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w100,
+                                                              fontSize: 10))),
+                                                )
                                               ],
                                             ),
                                           ],

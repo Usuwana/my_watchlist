@@ -139,7 +139,7 @@ class APImovies {
   }
 
   Future<dynamic> getLiked() async {
-    print("Success!");
+    print("This is it");
     CollectionReference _collectionRef = FirebaseFirestore.instance
         .collection("allow-users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
