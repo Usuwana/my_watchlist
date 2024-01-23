@@ -41,7 +41,8 @@ class _MostPopularState extends State<MostPopular> {
       trailerValues = data.values.toList()[1];
       for (var trailer in trailerValues) {
         // since there are so many types of videos, we just want to get the key to the official trailer
-        if (trailer['name'] == 'Official Trailer') {
+        if (trailer['name'].contains('Official Trailer') ||
+            trailer['type'].contains('Trailer')) {
           setState(() {
             // set the trailer ID fetched from the video object
             trailerYouTubeID = trailer['key'];
@@ -118,6 +119,7 @@ class _MostPopularState extends State<MostPopular> {
                       padding: const EdgeInsets.only(top: 0.0),
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.75,
+                        width: MediaQuery.of(context).size.width,
                         child: new SwipeCard(
                           allowVerticalMovement: false,
                           stackNum: 3,

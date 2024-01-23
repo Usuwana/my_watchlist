@@ -40,7 +40,8 @@ class _TopRatedState extends State<TopRated> {
       trailerValues = data.values.toList()[1];
       for (var trailer in trailerValues) {
         // since there are so many types of videos, we just want to get the key to the official trailer
-        if (trailer['name'] == 'Official Trailer') {
+        if (trailer['name'].contains('Official Trailer') ||
+            trailer['type'].contains('Trailer')) {
           setState(() {
             // set the trailer ID fetched from the video object
             trailerYouTubeID = trailer['key'];
@@ -188,7 +189,7 @@ class _TopRatedState extends State<TopRated> {
                                                   Colors.grey
                                                       .withOpacity(0.5))),
                                       onPressed: () async {
-                                        _getMovieTrailer(api.popularIDs[index]);
+                                        _getMovieTrailer(api.ratedIDs[index]);
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {

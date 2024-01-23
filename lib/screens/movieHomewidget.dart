@@ -161,7 +161,7 @@ class _MovieHomeWidgetState extends State<MovieHomeWidget> {
       ),
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
+          preferredSize: Size.fromHeight(60.0),
           child: AppBar(
               leading: IconButton(
                 color: Colors.blueGrey,

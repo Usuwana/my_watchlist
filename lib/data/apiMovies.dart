@@ -57,7 +57,7 @@ class APImovies {
   List<dynamic> likedPosters = [];
   List<dynamic> likedTitles = [];
   List<dynamic> likedOverviews = [];
-  List<int> likedIDs = [];
+  List<dynamic> likedIDs = [];
   List<dynamic> trending = [];
   late String trailerKey;
   List<dynamic> trailerValues = [];
@@ -152,6 +152,7 @@ class APImovies {
         .addAll(querySnapshot.docs.map((doc) => doc["overview"]).toList());
     likedPosters
         .addAll(querySnapshot.docs.map((doc) => doc["poster"]).toList());
+    likedIDs.addAll(querySnapshot.docs.map((doc) => doc["id"]).toList());
     print(likedPosters);
 
     print(likedPosters);
