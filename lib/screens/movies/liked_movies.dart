@@ -298,8 +298,17 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                         color: Colors.black,
                                                       )),
                                                 ),
+                                                Positioned(
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    child: Text(
+                                                        'Swipe to delete',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w100,
+                                                            fontSize: 10)))
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),

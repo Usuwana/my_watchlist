@@ -161,7 +161,7 @@ class _SeriesHomeWidgetState extends State<SeriesHomeWidget> {
                   },
                 ),
                 ListTile(
-                  title: Text('About Telly-Record'),
+                  title: Text('About the application'),
                   onTap: () {
                     Navigator.push(
                       context,
