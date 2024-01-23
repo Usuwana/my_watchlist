@@ -350,24 +350,25 @@ class _PopularSeriesState extends State<PopularSeries> {
                                     api.popularTitles[index],
                                     api.popularOverviews[index],
                                     api.popularIDs[index]);
+
+                                print(api.popularTitles[index]);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Center(
+                                    child: Text('LIKED!',
+                                        style: GoogleFonts.getFont('Montserrat')
+                                            .copyWith(
+                                                fontSize: 50,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green)),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  duration: Duration(milliseconds: 100),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                ));
                               }
-                              print(api.popularTitles[index]);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Center(
-                                  child: Text('LIKED!',
-                                      style: GoogleFonts.getFont('Montserrat')
-                                          .copyWith(
-                                              fontSize: 50,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green)),
-                                ),
-                                backgroundColor: Colors.transparent,
-                                duration: Duration(milliseconds: 100),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                              ));
                               break;
                             case CardSwipeOrientation.RECOVER:
                               break;

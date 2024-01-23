@@ -348,25 +348,25 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
                                     api.upcomingTitles[index],
                                     api.upcomingOverviews[index],
                                     api.upcomingIDs[index]);
-                              }
 
-                              //print(api.upcomingTitles[index]);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Center(
-                                  child: Text('LIKED!',
-                                      style: GoogleFonts.getFont('Montserrat')
-                                          .copyWith(
-                                              fontSize: 50,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green)),
-                                ),
-                                backgroundColor: Colors.transparent,
-                                duration: Duration(milliseconds: 100),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                              ));
+                                //print(api.upcomingTitles[index]);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Center(
+                                    child: Text('LIKED!',
+                                        style: GoogleFonts.getFont('Montserrat')
+                                            .copyWith(
+                                                fontSize: 50,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green)),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  duration: Duration(milliseconds: 100),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                ));
+                              }
                               break;
                             case CardSwipeOrientation.RECOVER:
                               break;
