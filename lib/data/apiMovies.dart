@@ -9,7 +9,7 @@ class APImovies {
   late String playingPoster;
   late int playingID;
   String baseURL = "https://image.tmdb.org/t/p/original/";
-  List<NetworkImage> playingPosters = [];
+  List<dynamic> playingPosters = [];
   List<int> playingIDs = [];
   List<String> playingPostersLink = [];
   List<String> playingTitles = [];
@@ -20,7 +20,7 @@ class APImovies {
   late String popularPoster;
   late int popularID;
   List<dynamic> popularIDs = [];
-  List<NetworkImage> popularPosters = [];
+  List<dynamic> popularPosters = [];
   List<String> popularPostersLink = [];
   List<String> popularTitles = [];
   List<String> popularOverviews = [];
@@ -30,7 +30,7 @@ class APImovies {
   late String upcomingPoster;
   late int upcomingID;
   List<int> upcomingIDs = [];
-  List<NetworkImage> upcomingPosters = [];
+  List<dynamic> upcomingPosters = [];
   List<String> upcomingPostersLink = [];
   List<String> upcomingTitles = [];
   List<String> upcomingOverviews = [];
@@ -40,7 +40,7 @@ class APImovies {
   late String ratedPoster;
   late int ratedID;
   List<int> ratedIDs = [];
-  List<NetworkImage> ratedPosters = [];
+  List<dynamic> ratedPosters = [];
   List<String> ratedPostersLink = [];
   List<String> ratedTitles = [];
   List<String> ratedOverviews = [];
@@ -50,7 +50,7 @@ class APImovies {
   late String trendingPoster;
   late int trendingID;
   List<int> trendingIDs = [];
-  List<NetworkImage> trendingPosters = [];
+  List<dynamic> trendingPosters = [];
   List<String> trendingPostersLink = [];
   List<String> trendingTitles = [];
   List<String> trendingOverviews = [];
@@ -173,15 +173,32 @@ class APImovies {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < nowPlaying.length) {
-          playingTitle = data['results'][j]['original_title'];
-          playingOverview = data['results'][j]['overview'];
-          playingPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['original_title'] == null) {
+            playingTitle = '';
+          } else {
+            playingTitle = data['results'][j]['original_title'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            playingOverview = '';
+          } else {
+            playingOverview = data['results'][j]['overview'];
+          }
+          if (data['results'][j]['poster_path'] == null) {
+            playingPoster = "assets/company_logo.png";
+          } else {
+            playingPoster = data['results'][j]['poster_path'];
+          }
           playingID = data['results'][j]['id'];
 
           print("THESE THE ONES!");
           playingTitles.add(playingTitle);
           playingOverviews.add(playingOverview);
-          playingPosters.add(NetworkImage(baseURL + playingPoster));
+          if (playingPoster == "assets/company_logo.png") {
+            playingPosters.add(AssetImage(playingPoster));
+          } else {
+            playingPosters.add(NetworkImage(baseURL + playingPoster));
+          }
+
           playingPostersLink.add(playingPoster);
           playingIDs.add(playingID);
 
@@ -210,14 +227,33 @@ class APImovies {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < popular.length) {
-          popularTitle = data['results'][j]['title'];
-          popularOverview = data['results'][j]['overview'];
-          popularPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['title'] == null) {
+            popularTitle = '';
+          } else {
+            popularTitle = data['results'][j]['title'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            popularOverview = '';
+          } else {
+            popularOverview = data['results'][j]['overview'];
+          }
+          //onAirPoster = "First";
+          if (data['results'][j]['poster_path'] == null) {
+            popularPoster = "assets/company_logo.png";
+          } else {
+            popularPoster = data['results'][j]['poster_path'];
+          }
+
           popularID = data['results'][j]['id'];
           print(popularID);
           popularTitles.add(popularTitle);
           popularOverviews.add(popularOverview);
-          popularPosters.add(NetworkImage(baseURL + popularPoster));
+          if (popularPoster == "assets/company_logo.png") {
+            popularPosters.add(AssetImage(popularPoster));
+          } else {
+            popularPosters.add(NetworkImage(baseURL + popularPoster));
+          }
+
           popularPostersLink.add(popularPoster);
           popularIDs.add(popularID);
           //popularIDs.add(getTrailer(popularID));
@@ -247,16 +283,35 @@ class APImovies {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < upcoming.length) {
-          upcomingTitle = data['results'][j]['original_title'];
-          upcomingOverview = data['results'][j]['overview'];
-          upcomingPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['original_title'] == null) {
+            upcomingTitle = '';
+          } else {
+            upcomingTitle = data['results'][j]['original_title'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            upcomingOverview = '';
+          } else {
+            upcomingOverview = data['results'][j]['overview'];
+          }
+          //onAirPoster = "First";
+          if (data['results'][j]['poster_path'] == null) {
+            upcomingPoster = "assets/company_logo.png";
+          } else {
+            upcomingPoster = data['results'][j]['poster_path'];
+          }
+
           upcomingID = data['results'][j]['id'];
 
           // for (var k = 0; i < upcoming.length; i++) {
           // if (upcomingTitle != likedTitles[k].toString()) {
           upcomingTitles.add(upcomingTitle);
           upcomingOverviews.add(upcomingOverview);
-          upcomingPosters.add(NetworkImage(baseURL + upcomingPoster));
+          if (upcomingPoster == "assets/company_logo.png") {
+            upcomingPosters.add(AssetImage(upcomingPoster));
+          } else {
+            upcomingPosters.add(NetworkImage(baseURL + upcomingPoster));
+          }
+
           upcomingPostersLink.add(upcomingPoster);
           upcomingIDs.add(upcomingID);
 
@@ -286,13 +341,32 @@ class APImovies {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < top_rated.length) {
-          ratedTitle = data['results'][j]['original_title'];
-          ratedOverview = data['results'][j]['overview'];
-          ratedPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['original_title'] == null) {
+            ratedTitle = '';
+          } else {
+            ratedTitle = data['results'][j]['original_title'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            ratedOverview = '';
+          } else {
+            ratedOverview = data['results'][j]['overview'];
+          }
+          //onAirPoster = "First";
+          if (data['results'][j]['poster_path'] == null) {
+            ratedPoster = "assets/company_logo.png";
+          } else {
+            ratedPoster = data['results'][j]['poster_path'];
+          }
+
           ratedID = data['results'][j]['id'];
           ratedTitles.add(ratedTitle);
           ratedOverviews.add(ratedOverview);
-          ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          if (ratedPoster == "assets/company_logo.png") {
+            ratedPosters.add(AssetImage(ratedPoster));
+          } else {
+            ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          }
+
           ratedPostersLink.add(ratedPoster);
           ratedIDs.add(ratedID);
 
@@ -321,13 +395,32 @@ class APImovies {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < trending.length) {
-          trendingTitle = data['results'][j]['title'];
-          trendingOverview = data['results'][j]['overview'];
-          trendingPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['title'] == null) {
+            trendingTitle = '';
+          } else {
+            trendingTitle = data['results'][j]['title'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            trendingOverview = '';
+          } else {
+            trendingOverview = data['results'][j]['overview'];
+          }
+          //onAirPoster = "First";
+          if (data['results'][j]['poster_path'] == null) {
+            trendingPoster = "assets/company_logo.png";
+          } else {
+            trendingPoster = data['results'][j]['poster_path'];
+          }
+
           trendingID = data['results'][j]['id'];
           trendingTitles.add(trendingTitle);
           trendingOverviews.add(trendingOverview);
-          trendingPosters.add(NetworkImage(baseURL + trendingPoster));
+          if (trendingPoster == "assets/company_logo.png") {
+            trendingPosters.add(AssetImage(trendingPoster));
+          } else {
+            trendingPosters.add(NetworkImage(baseURL + trendingPoster));
+          }
+
           trendingPostersLink.add(trendingPoster);
           trendingIDs.add(trendingID);
 

@@ -7,38 +7,46 @@ class APIseries {
   late String onAirTitle;
   late String onAirOverview;
   late String onAirPoster;
+  late int onAirID;
   String baseURL = "https://image.tmdb.org/t/p/original/";
-  List<NetworkImage> onAirPosters = [];
+  List<dynamic> onAirPosters = [];
   List<String> onAirPostersLinks = [];
   List<String> onAirTitles = [];
   List<String> onAirOverviews = [];
+  List<int> onAirIDs = [];
   List<dynamic> onAir = [];
   late String popularTitle;
   late String popularOverview;
   late String popularPoster;
-  List<NetworkImage> popularPosters = [];
+  late int popularID;
+  List<dynamic> popularPosters = [];
   List<String> popularPostersLinks = [];
   List<String> popularTitles = [];
   List<String> popularOverviews = [];
+  List<dynamic> popularIDs = [];
   List<dynamic> popular = [];
 
   late String ratedTitle;
   late String ratedOverview;
   late String ratedPoster;
-  List<NetworkImage> ratedPosters = [];
+  late int ratedID;
+  List<dynamic> ratedPosters = [];
   List<String> ratedPostersLinks = [];
   List<String> ratedTitles = [];
   List<String> ratedOverviews = [];
+  List<int> ratedIDs = [];
   List<dynamic> top_rated = [];
 
   List<dynamic> likedPosters = [];
   List<dynamic> likedTitles = [];
   List<dynamic> likedOverviews = [];
+  List<dynamic> likedIDs = [];
   List<dynamic> latest = [];
 
   final firestoreInstance = FirebaseFirestore.instance;
 
-  Future<void> addLiked(String poster, String title, String overview) async {
+  Future<void> addLiked(
+      String poster, String title, String overview, int id) async {
     /* firestoreInstance.collection("likedSeries").add({
       "title": title,
       "overview": overview,
@@ -57,6 +65,7 @@ class APIseries {
           "title": title,
           "overview": overview,
           "poster": poster,
+          "id": id
         }).then((value) {
           print(value.id);
         });
@@ -132,6 +141,7 @@ class APIseries {
         .addAll(querySnapshot.docs.map((doc) => doc["overview"]).toList());
     likedPosters
         .addAll(querySnapshot.docs.map((doc) => doc["poster"]).toList());
+    likedIDs.addAll(querySnapshot.docs.map((doc) => doc["id"]).toList());
     // print(likedTitles);
     // }
     //print(likedTitles);
@@ -154,14 +164,34 @@ class APIseries {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < onAir.length) {
-          onAirTitle = data['results'][j]['name'];
-          onAirOverview = data['results'][j]['overview'];
-          onAirPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['name'] == null) {
+            onAirTitle = '';
+          } else {
+            onAirTitle = data['results'][j]['name'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            onAirOverview = '';
+          } else {
+            onAirOverview = data['results'][j]['overview'];
+          }
+          //onAirPoster = "First";
+          if (data['results'][j]['poster_path'] == null) {
+            onAirPoster = "assets/company_logo.png";
+          } else {
+            onAirPoster = data['results'][j]['poster_path'];
+          }
 
+          onAirID = data['results'][j]['id'];
           onAirTitles.add(onAirTitle);
           onAirOverviews.add(onAirOverview);
-          onAirPosters.add(NetworkImage(baseURL + onAirPoster));
+          if (onAirPoster == "assets/company_logo.png") {
+            onAirPosters.add(AssetImage(onAirPoster));
+          } else {
+            onAirPosters.add(NetworkImage(baseURL + onAirPoster));
+          }
+
           onAirPostersLinks.add(onAirPoster);
+          onAirIDs.add(onAirID);
 
           j++;
           i++;
@@ -190,11 +220,24 @@ class APIseries {
         while (j < popular.length) {
           popularTitle = data['results'][j]['name'];
           popularOverview = data['results'][j]['overview'];
-          popularPoster = data['results'][j]['poster_path'];
+
+          if (data['results'][j]['poster_path'] == null) {
+            popularPoster = "assets/company_logo.png";
+          } else {
+            popularPoster = data['results'][j]['poster_path'];
+          }
+
+          popularID = data['results'][j]['id'];
           popularTitles.add(popularTitle);
           popularOverviews.add(popularOverview);
-          popularPosters.add(NetworkImage(baseURL + popularPoster));
+          if (popularPoster == "assets/company_logo.png") {
+            popularPosters.add(AssetImage(popularPoster));
+          } else {
+            popularPosters.add(NetworkImage(baseURL + popularPoster));
+          }
+
           popularPostersLinks.add(popularPoster);
+          popularIDs.add(popularID);
 
           j++;
           i++;
@@ -221,12 +264,33 @@ class APIseries {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < top_rated.length) {
-          ratedTitle = data['results'][j]['name'];
-          ratedOverview = data['results'][j]['overview'];
-          ratedPoster = data['results'][j]['poster_path'];
+          if (data['results'][j]['name'] == null) {
+            ratedTitle = '';
+          } else {
+            ratedTitle = data['results'][j]['name'];
+          }
+          if (data['results'][j]['overview'] == null) {
+            ratedOverview = '';
+          } else {
+            ratedOverview = data['results'][j]['overview'];
+          }
+
+          if (data['results'][j]['poster_path'] == null) {
+            ratedPoster = "assets/company_logo.png";
+          } else {
+            ratedPoster = data['results'][j]['poster_path'];
+          }
+
+          ratedID = data['results'][j]['id'];
           ratedTitles.add(ratedTitle);
           ratedOverviews.add(ratedOverview);
-          ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          ratedIDs.add(ratedID);
+          if (ratedPoster == "assets/company_logo.png") {
+            ratedPosters.add(AssetImage(ratedPoster));
+          } else {
+            ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          }
+
           ratedPostersLinks.add(ratedPoster);
           j++;
           i++;
