@@ -112,6 +112,7 @@ class _TrendingState extends State<Trending> {
             future: api.getTrending(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                api.getLiked();
                 return Column(
                   children: [
                     Padding(
@@ -328,11 +329,34 @@ class _TrendingState extends State<Trending> {
 
                                 break;
                               case CardSwipeOrientation.RIGHT:
-                                api.addLiked(
-                                    api.trendingPostersLink[index],
-                                    api.trendingTitles[index],
-                                    api.trendingOverviews[index],
-                                    api.trendingIDs[index]);
+                                if (api.likedTitles
+                                    .contains(api.trendingTitles[index])) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Center(
+                                      child: Text('ALREADY LIKED!',
+                                          style:
+                                              GoogleFonts.getFont('Montserrat')
+                                                  .copyWith(
+                                                      fontSize: 50,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.green)),
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                    duration: Duration(milliseconds: 100),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                  ));
+                                } else {
+                                  api.addLiked(
+                                      api.trendingPostersLink[index],
+                                      api.trendingTitles[index],
+                                      api.trendingOverviews[index],
+                                      api.trendingIDs[index]);
+                                }
+
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(

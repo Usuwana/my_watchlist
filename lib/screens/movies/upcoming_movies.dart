@@ -112,6 +112,7 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
           future: api.getUpcoming(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              api.getLiked();
               return Column(
                 children: [
                   Padding(
@@ -323,11 +324,32 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
 
                               break;
                             case CardSwipeOrientation.RIGHT:
-                              api.addLiked(
-                                  api.upcomingPostersLink[index],
-                                  api.upcomingTitles[index],
-                                  api.upcomingOverviews[index],
-                                  api.upcomingIDs[index]);
+                              if (api.likedTitles
+                                  .contains(api.upcomingTitles[index])) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Center(
+                                    child: Text('ALREADY LIKED!',
+                                        style: GoogleFonts.getFont('Montserrat')
+                                            .copyWith(
+                                                fontSize: 50,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green)),
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                  duration: Duration(milliseconds: 100),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                ));
+                              } else {
+                                api.addLiked(
+                                    api.upcomingPostersLink[index],
+                                    api.upcomingTitles[index],
+                                    api.upcomingOverviews[index],
+                                    api.upcomingIDs[index]);
+                              }
+
                               //print(api.upcomingTitles[index]);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(

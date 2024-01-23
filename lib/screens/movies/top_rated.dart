@@ -112,6 +112,7 @@ class _TopRatedState extends State<TopRated> {
             future: api.getTopRated(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                api.getLiked();
                 return Column(
                   children: [
                     Padding(
@@ -328,11 +329,34 @@ class _TopRatedState extends State<TopRated> {
 
                                 break;
                               case CardSwipeOrientation.RIGHT:
-                                api.addLiked(
-                                    api.ratedPostersLink[index],
-                                    api.ratedTitles[index],
-                                    api.ratedOverviews[index],
-                                    api.ratedIDs[index]);
+                                if (api.likedTitles
+                                    .contains(api.ratedTitles[index])) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Center(
+                                      child: Text('ALREADY LIKED!',
+                                          style:
+                                              GoogleFonts.getFont('Montserrat')
+                                                  .copyWith(
+                                                      fontSize: 50,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.green)),
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                    duration: Duration(milliseconds: 100),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                  ));
+                                } else {
+                                  api.addLiked(
+                                      api.ratedPostersLink[index],
+                                      api.ratedTitles[index],
+                                      api.ratedOverviews[index],
+                                      api.ratedIDs[index]);
+                                }
+
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(
