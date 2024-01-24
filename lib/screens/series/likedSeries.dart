@@ -186,60 +186,6 @@ class _LikedSeriesState extends State<LikedSeries> {
                                                     },
                                                   ),
                                                 ),
-                                                IconButton(
-                                                  splashColor: Colors.blue,
-                                                  icon: Image.asset(
-                                                    'assets/youtube.png',
-                                                    width: 30,
-                                                    height: 30,
-                                                  ),
-                                                  onPressed: () {
-                                                    _getMovieTrailer(
-                                                        api.likedIDs[index]);
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return Center(
-                                                            child: SizedBox(
-                                                              width: 40,
-                                                              height: 40,
-                                                              child:
-                                                                  CircularProgressIndicator(
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        });
-                                                    Future.delayed(
-                                                        Duration(seconds: 4),
-                                                        () {
-                                                      Navigator.of(context)
-                                                          .pop(); // Close the dialog
-                                                      if (trailerYouTubeID ==
-                                                          '') {
-                                                        const snackBar =
-                                                            SnackBar(
-                                                          content: Text(
-                                                              'Movie trailer not available'),
-                                                          backgroundColor:
-                                                              Colors.black,
-                                                        );
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                snackBar);
-                                                        _showTrailer == false;
-                                                      } else {
-                                                        showMovieTrailerDialog(
-                                                            context);
-                                                        _showTrailer == false;
-                                                        trailerYouTubeID == '';
-                                                      }
-                                                    });
-                                                  },
-                                                ),
                                               ],
                                             ),
                                             SizedBox(

@@ -338,7 +338,7 @@ class _NowPlayingState extends State<NowPlaying> {
                                                       fontSize: 50,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.green)),
+                                                      color: Colors.red)),
                                     ),
                                     backgroundColor: Colors.transparent,
                                     duration: Duration(milliseconds: 100),

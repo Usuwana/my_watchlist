@@ -348,7 +348,7 @@ class _MostPopularState extends State<MostPopular> {
                                                       fontSize: 50,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: Colors.green)),
+                                                      color: Colors.red)),
                                     ),
                                     backgroundColor: Colors.transparent,
                                     duration: Duration(milliseconds: 100),

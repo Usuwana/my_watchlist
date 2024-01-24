@@ -334,7 +334,7 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
                                             .copyWith(
                                                 fontSize: 50,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.green)),
+                                                color: Colors.red)),
                                   ),
                                   backgroundColor: Colors.transparent,
                                   duration: Duration(milliseconds: 100),
