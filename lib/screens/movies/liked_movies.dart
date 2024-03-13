@@ -307,9 +307,7 @@ class _LikedMoviesState extends State<LikedMovies> {
                                                       )),
                                                 ),
                                                 Center(
-                                                  child: Positioned(
-                                                      right: 0,
-                                                      bottom: 0,
+                                                  child: Center(
                                                       child: Text(
                                                           '<- Swipe to delete ->',
                                                           style: TextStyle(
