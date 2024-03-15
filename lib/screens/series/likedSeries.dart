@@ -243,15 +243,15 @@ class _LikedSeriesState extends State<LikedSeries> {
                                                         color: Colors.black,
                                                       )),
                                                 ),
-                                                Positioned(
-                                                    right: 0,
-                                                    bottom: 0,
-                                                    child: Text(
-                                                        '<- Swipe to delete ->',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w100,
-                                                            fontSize: 10)))
+                                                Center(
+                                                    child: Center(
+                                                  child: Text(
+                                                      '<- Swipe to delete ->',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w100,
+                                                          fontSize: 10)),
+                                                ))
                                               ],
                                             )
                                           ],
