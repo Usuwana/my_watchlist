@@ -56,7 +56,8 @@ android {
 
      signingConfigs {
         release {
-            storeFile file('C:/Users/tatem/Documents/Projects/my_watchlist/android/app/key.jks')
+            //storeFile file('C:/Users/tatem/Documents/Projects/my_watchlist/android/app/key.jks')
+            storeFile file('/Users/usuwana/Documents/Projects/my_watchlist/android/app/key.jks')
             storePassword 'Casanova101!'
             keyAlias 'key'
             keyPassword 'Casanova101!'
