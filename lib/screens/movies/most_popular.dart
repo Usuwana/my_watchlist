@@ -313,6 +313,11 @@ class _MostPopularState extends State<MostPopular> {
                               (CardSwipeOrientation orientation, int index) {
                             switch (orientation) {
                               case CardSwipeOrientation.LEFT:
+                                api.addViewed(
+                                    api.popularPostersLink[index],
+                                    api.popularTitles[index],
+                                    api.popularOverviews[index],
+                                    api.popularIDs[index]);
                                 print("YESSIR");
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
@@ -334,6 +339,11 @@ class _MostPopularState extends State<MostPopular> {
                                 break;
                               case CardSwipeOrientation.RIGHT:
                                 //api.getLiked;
+                                api.addViewed(
+                                    api.popularPostersLink[index],
+                                    api.popularTitles[index],
+                                    api.popularOverviews[index],
+                                    api.popularIDs[index]);
                                 print(api.likedTitles);
                                 print("yes");
                                 if (api.likedTitles

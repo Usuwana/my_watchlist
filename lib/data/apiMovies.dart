@@ -65,6 +65,27 @@ class APImovies {
 
   final firestoreInstance = FirebaseFirestore.instance;
 
+  Future<void> addViewed(
+      String poster, String title, String overview, int id) async {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        //print(user.uid);
+        firestoreInstance
+            .collection("allow-users")
+            .doc(user.uid)
+            .collection("viewedMovies")
+            .add({
+          "title": title,
+          "overview": overview,
+          "poster": poster,
+          "id": id
+        }).then((value) {
+          print(value.id);
+        });
+      }
+    });
+  }
+
   Future<void> addLiked(
       String poster, String title, String overview, int id) async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
