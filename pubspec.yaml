@@ -59,6 +59,7 @@ dependencies:
   chewie: ^1.5.0
   youtube_player_flutter: ^8.1.2
   flutter_vlc_player: ^7.4.1
+  win32: 3.0.1
 
 dev_dependencies:
   flutter_test:
