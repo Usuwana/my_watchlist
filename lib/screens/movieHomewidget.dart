@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:my_watchlist/auth_gate.dart';
 import '../../../../screens/about.dart';
 import '../utils/imports.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,6 +54,147 @@ class _MovieHomeWidgetState extends State<MovieHomeWidget> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> _deleteUser(BuildContext context) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      bool reAuthSuccess = false;
+
+      while (!reAuthSuccess) {
+        // Keep prompting until re-authentication succeeds or user cancels
+        try {
+          // Securely prompt the user for their password
+          final password = await _getPasswordFromUser(context);
+
+          if (password == null) {
+            // User canceled the dialog, exit the loop
+            break;
+          }
+
+          // Re-authenticate the user with the provided password
+          AuthCredential credential = EmailAuthProvider.credential(
+            email: user.email!,
+            password: password,
+          );
+
+          await user.reauthenticateWithCredential(credential);
+          reAuthSuccess =
+              true; // Exit the loop if re-authentication is successful
+
+          // Now delete the user
+          await user.delete();
+          print('User deleted successfully');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Account deleted successfully')),
+          );
+
+          // Redirect to login page or exit the app
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+        } catch (e) {
+          if (e is FirebaseAuthException && e.code == 'wrong-password') {
+            // Inform the user that the password was incorrect and prompt again
+            _showErrorDialog(context, 'Incorrect password. Please try again.');
+          } else {
+            print('Error during re-authentication: $e');
+            _showErrorDialog(
+                context, 'Failed to delete account. Try again later.');
+            break; // Exit the loop if it's another type of error
+          }
+        }
+      }
+    }
+  }
+
+// Function to securely get the user's password and handle error feedback
+  Future<String?> _getPasswordFromUser(BuildContext context) async {
+    String? password;
+    String? errorMessage;
+
+    // Keep showing the dialog until a valid password is provided or user cancels
+    while (password == null) {
+      password = await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          TextEditingController passwordController = TextEditingController();
+
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return AlertDialog(
+                title: Text('Re-enter Password'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                        border: OutlineInputBorder(),
+                        errorText: errorMessage, // Show error message if set
+                      ),
+                      obscureText: true, // Hide the password
+                    ),
+                  ],
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pop(null); // Close without returning a password
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Confirm'),
+                    onPressed: () {
+                      if (passwordController.text.isEmpty) {
+                        setState(() {
+                          errorMessage = 'Password cannot be empty';
+                        });
+                      } else {
+                        Navigator.of(context).pop(passwordController
+                            .text); // Return the entered password
+                      }
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+
+      // If user canceled, break out of the loop
+      if (password == null) break;
+    }
+
+    return password;
+  }
+
+// Show an error dialog with a custom message
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the error dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -127,6 +269,12 @@ class _MovieHomeWidgetState extends State<MovieHomeWidget> {
                 ),
                 ListTile(title: Text('About the developer'), onTap: _launchURL),
                 ListTile(title: Text('Send us feedback'), onTap: _launchEmail),
+                ListTile(
+                    title: Text('Delete Account'),
+                    onTap: () {
+                      _getPasswordFromUser(context);
+                      _deleteUser(context);
+                    }),
                 ListTile(title: Text('Sign Out'), onTap: _signOut),
                 Spacer(),
                 DefaultTextStyle(
