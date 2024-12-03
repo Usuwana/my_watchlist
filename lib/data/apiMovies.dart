@@ -269,7 +269,11 @@ class APImovies {
 
     int i = 0;
     int j = 0;
-
+    await getViewed();
+    // popularTitle = '';
+    // popularID = 0;
+    // popularOverview = '';
+    // popularPoster = '';
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < popular.length) {
@@ -300,6 +304,9 @@ class APImovies {
           if (!viewedIDs.contains(data['results'][j]['id'])) {
             popularID = data['results'][j]['id'];
           }
+          // } else {
+          //   popularID = data['results'][j]['id'];
+          // }
           print(popularID);
           popularTitles.add(popularTitle);
           popularOverviews.add(popularOverview);

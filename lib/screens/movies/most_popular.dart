@@ -29,6 +29,8 @@ class _MostPopularState extends State<MostPopular> {
 
   @override
   void initState() {
+    print("sadarooooo");
+    print(api.popularTitles);
     super.initState();
   }
 
