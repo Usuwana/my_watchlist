@@ -276,7 +276,7 @@ class APImovies {
           if (data['results'][j]['title'] == null) {
             popularTitle = '';
           } else {
-            if (!(viewedOverviews.contains(data['results'][j]['title']))) {
+            if (!viewedTitles.contains(data['results'][j]['title'])) {
               popularTitle = data['results'][j]['title'];
             }
             //popularTitle = data['results'][j]['title'];
@@ -284,7 +284,7 @@ class APImovies {
           if (data['results'][j]['overview'] == null) {
             popularOverview = '';
           } else {
-            if (!(viewedOverviews.contains(data['results'][j]['overview']))) {
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
               popularOverview = data['results'][j]['overview'];
             }
           }
@@ -292,13 +292,12 @@ class APImovies {
           if (data['results'][j]['poster_path'] == null) {
             popularPoster = "assets/company_logo.png";
           } else {
-            if (!(viewedOverviews
-                .contains(data['results'][j]['poster_path']))) {
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
               popularPoster = data['results'][j]['poster_path'];
             }
           }
 
-          if (!(viewedOverviews.contains(data['results'][j]['id']))) {
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
             popularID = data['results'][j]['id'];
           }
           print(popularID);
