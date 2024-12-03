@@ -35,10 +35,10 @@ class APImovies {
   List<String> upcomingTitles = [];
   List<String> upcomingOverviews = [];
   List<dynamic> upcoming = [];
-  late String ratedTitle;
-  late String ratedOverview;
-  late String ratedPoster;
-  late int ratedID;
+  late String ratedTitle = '';
+  late String ratedOverview = '';
+  late String ratedPoster = '';
+  late int ratedID = 0;
   List<int> ratedIDs = [];
   List<dynamic> ratedPosters = [];
   List<String> ratedPostersLink = [];
