@@ -25,10 +25,10 @@ class APImovies {
   List<String> popularTitles = [];
   List<String> popularOverviews = [];
   List<dynamic> popular = [];
-  late String upcomingTitle;
-  late String upcomingOverview;
-  late String upcomingPoster;
-  late int upcomingID;
+  late String upcomingTitle = '';
+  late String upcomingOverview = '';
+  late String upcomingPoster = '';
+  late int upcomingID = 0;
   List<int> upcomingIDs = [];
   List<dynamic> upcomingPosters = [];
   List<String> upcomingPostersLink = [];
@@ -45,10 +45,10 @@ class APImovies {
   List<String> ratedTitles = [];
   List<String> ratedOverviews = [];
   List<dynamic> top_rated = [];
-  late String trendingTitle;
-  late String trendingOverview;
-  late String trendingPoster;
-  late int trendingID;
+  late String trendingTitle = '';
+  late String trendingOverview = '';
+  late String trendingPoster = '';
+  late int trendingID = 0;
   List<int> trendingIDs = [];
   List<dynamic> trendingPosters = [];
   List<String> trendingPostersLink = [];
@@ -477,6 +477,7 @@ class APImovies {
   }
 
   Future<dynamic> getTopRated() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/movie/top_rated?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -493,31 +494,58 @@ class APImovies {
           if (data['results'][j]['original_title'] == null) {
             ratedTitle = '';
           } else {
-            ratedTitle = data['results'][j]['original_title'];
+            if (!viewedTitles.contains(data['results'][j]['original_title'])) {
+              ratedTitle = data['results'][j]['original_title'];
+            }
+            //ratedTitle = data['results'][j]['original_title'];
           }
           if (data['results'][j]['overview'] == null) {
             ratedOverview = '';
           } else {
-            ratedOverview = data['results'][j]['overview'];
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              ratedOverview = data['results'][j]['overview'];
+            }
+            //ratedOverview = data['results'][j]['overview'];
           }
           //onAirPoster = "First";
           if (data['results'][j]['poster_path'] == null) {
             ratedPoster = "assets/company_logo.png";
           } else {
-            ratedPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              ratedPoster = data['results'][j]['poster_path'];
+            }
+            //ratedPoster = data['results'][j]['poster_path'];
           }
 
-          ratedID = data['results'][j]['id'];
-          ratedTitles.add(ratedTitle);
-          ratedOverviews.add(ratedOverview);
-          if (ratedPoster == "assets/company_logo.png") {
-            ratedPosters.add(AssetImage(ratedPoster));
-          } else {
-            ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            ratedID = data['results'][j]['id'];
           }
+          //ratedID = data['results'][j]['id'];
 
-          ratedPostersLink.add(ratedPoster);
-          ratedIDs.add(ratedID);
+          if (ratedTitle != '') {
+            ratedTitles.add(ratedTitle);
+            ratedOverviews.add(ratedOverview);
+            if (ratedPoster == "assets/company_logo.png") {
+              ratedPosters.add(AssetImage(ratedPoster));
+              ratedPostersLink.add(ratedPoster);
+            } else {
+              ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+              ratedPostersLink.add(ratedPoster);
+            }
+
+            //ratedPostersLink.add(ratedPoster);
+            ratedIDs.add(ratedID);
+          }
+          // ratedTitles.add(ratedTitle);
+          // ratedOverviews.add(ratedOverview);
+          // if (ratedPoster == "assets/company_logo.png") {
+          //   ratedPosters.add(AssetImage(ratedPoster));
+          // } else {
+          //   ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          // }
+
+          // ratedPostersLink.add(ratedPoster);
+          // ratedIDs.add(ratedID);
 
           j++;
           i++;
@@ -531,6 +559,7 @@ class APImovies {
   }
 
   Future<dynamic> getTrending() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/trending/all/day?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -547,31 +576,56 @@ class APImovies {
           if (data['results'][j]['title'] == null) {
             trendingTitle = '';
           } else {
-            trendingTitle = data['results'][j]['title'];
+            if (!viewedTitles.contains(data['results'][j]['title'])) {
+              trendingTitle = data['results'][j]['title'];
+            }
+            //trendingTitle = data['results'][j]['title'];
           }
           if (data['results'][j]['overview'] == null) {
             trendingOverview = '';
           } else {
-            trendingOverview = data['results'][j]['overview'];
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              trendingOverview = data['results'][j]['overview'];
+            }
+            //trendingOverview = data['results'][j]['overview'];
           }
           //onAirPoster = "First";
           if (data['results'][j]['poster_path'] == null) {
             trendingPoster = "assets/company_logo.png";
           } else {
-            trendingPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              trendingPoster = data['results'][j]['poster_path'];
+            }
+            //trendingPoster = data['results'][j]['poster_path'];
           }
 
-          trendingID = data['results'][j]['id'];
-          trendingTitles.add(trendingTitle);
-          trendingOverviews.add(trendingOverview);
-          if (trendingPoster == "assets/company_logo.png") {
-            trendingPosters.add(AssetImage(trendingPoster));
-          } else {
-            trendingPosters.add(NetworkImage(baseURL + trendingPoster));
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            trendingID = data['results'][j]['id'];
           }
+          //trendingID = data['results'][j]['id'];
 
-          trendingPostersLink.add(trendingPoster);
-          trendingIDs.add(trendingID);
+          if (trendingTitle != '') {
+            trendingTitles.add(trendingTitle);
+            trendingOverviews.add(trendingOverview);
+            if (trendingPoster == "assets/company_logo.png") {
+              trendingPosters.add(AssetImage(trendingPoster));
+            } else {
+              trendingPosters.add(NetworkImage(baseURL + trendingPoster));
+            }
+
+            trendingPostersLink.add(trendingPoster);
+            trendingIDs.add(trendingID);
+          }
+          // trendingTitles.add(trendingTitle);
+          // trendingOverviews.add(trendingOverview);
+          // if (trendingPoster == "assets/company_logo.png") {
+          //   trendingPosters.add(AssetImage(trendingPoster));
+          // } else {
+          //   trendingPosters.add(NetworkImage(baseURL + trendingPoster));
+          // }
+
+          // trendingPostersLink.add(trendingPoster);
+          // trendingIDs.add(trendingID);
 
           print(trendingTitles);
           j++;
