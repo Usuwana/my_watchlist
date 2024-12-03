@@ -263,6 +263,14 @@ class _TrendingState extends State<Trending> {
                                                   color: Colors.red,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.trendingPostersLink[
+                                                            index],
+                                                        api.trendingTitles[
+                                                            index],
+                                                        api.trendingOverviews[
+                                                            index],
+                                                        api.trendingIDs[index]);
                                                     controller.swipeLeft();
                                                   },
                                                   icon:
@@ -288,6 +296,14 @@ class _TrendingState extends State<Trending> {
                                                   color: Colors.green,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.trendingPostersLink[
+                                                            index],
+                                                        api.trendingTitles[
+                                                            index],
+                                                        api.trendingOverviews[
+                                                            index],
+                                                        api.trendingIDs[index]);
                                                     controller.swipeRight();
                                                   },
                                                   icon: Icon(FlutterApp.like)),
@@ -309,6 +325,11 @@ class _TrendingState extends State<Trending> {
                               (CardSwipeOrientation orientation, int index) {
                             switch (orientation) {
                               case CardSwipeOrientation.LEFT:
+                                api.addViewed(
+                                    api.trendingPostersLink[index],
+                                    api.trendingTitles[index],
+                                    api.trendingOverviews[index],
+                                    api.trendingIDs[index]);
                                 print("YESSIR");
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
@@ -329,6 +350,11 @@ class _TrendingState extends State<Trending> {
 
                                 break;
                               case CardSwipeOrientation.RIGHT:
+                                api.addViewed(
+                                    api.trendingPostersLink[index],
+                                    api.trendingTitles[index],
+                                    api.trendingOverviews[index],
+                                    api.trendingIDs[index]);
                                 if (api.likedTitles
                                     .contains(api.trendingTitles[index])) {
                                   ScaffoldMessenger.of(context)

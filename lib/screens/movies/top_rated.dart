@@ -263,6 +263,13 @@ class _TopRatedState extends State<TopRated> {
                                                   color: Colors.red,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.ratedPostersLink[
+                                                            index],
+                                                        api.ratedTitles[index],
+                                                        api.ratedOverviews[
+                                                            index],
+                                                        api.ratedIDs[index]);
                                                     controller.swipeLeft();
                                                   },
                                                   icon:
@@ -288,6 +295,13 @@ class _TopRatedState extends State<TopRated> {
                                                   color: Colors.green,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.ratedPostersLink[
+                                                            index],
+                                                        api.ratedTitles[index],
+                                                        api.ratedOverviews[
+                                                            index],
+                                                        api.ratedIDs[index]);
                                                     controller.swipeRight();
                                                   },
                                                   icon: Icon(FlutterApp.like)),
@@ -309,6 +323,11 @@ class _TopRatedState extends State<TopRated> {
                               (CardSwipeOrientation orientation, int index) {
                             switch (orientation) {
                               case CardSwipeOrientation.LEFT:
+                                api.addViewed(
+                                    api.ratedPostersLink[index],
+                                    api.ratedTitles[index],
+                                    api.ratedOverviews[index],
+                                    api.ratedIDs[index]);
                                 print("YESSIR");
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
@@ -329,6 +348,11 @@ class _TopRatedState extends State<TopRated> {
 
                                 break;
                               case CardSwipeOrientation.RIGHT:
+                                api.addViewed(
+                                    api.ratedPostersLink[index],
+                                    api.ratedTitles[index],
+                                    api.ratedOverviews[index],
+                                    api.ratedIDs[index]);
                                 if (api.likedTitles
                                     .contains(api.ratedTitles[index])) {
                                   ScaffoldMessenger.of(context)

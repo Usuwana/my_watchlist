@@ -261,6 +261,14 @@ class _NowPlayingState extends State<NowPlaying> {
                                                   color: Colors.red,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.playingPostersLink[
+                                                            index],
+                                                        api.playingTitles[
+                                                            index],
+                                                        api.playingOverviews[
+                                                            index],
+                                                        api.playingIDs[index]);
                                                     controller.swipeLeft();
                                                   },
                                                   icon:
@@ -286,6 +294,14 @@ class _NowPlayingState extends State<NowPlaying> {
                                                   color: Colors.green,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.playingPostersLink[
+                                                            index],
+                                                        api.playingTitles[
+                                                            index],
+                                                        api.playingOverviews[
+                                                            index],
+                                                        api.playingIDs[index]);
                                                     controller.swipeRight();
                                                   },
                                                   icon: Icon(FlutterApp.like)),
@@ -307,6 +323,11 @@ class _NowPlayingState extends State<NowPlaying> {
                               (CardSwipeOrientation orientation, int index) {
                             switch (orientation) {
                               case CardSwipeOrientation.LEFT:
+                                api.addViewed(
+                                    api.playingPostersLink[index],
+                                    api.playingTitles[index],
+                                    api.playingOverviews[index],
+                                    api.playingIDs[index]);
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(
@@ -326,6 +347,11 @@ class _NowPlayingState extends State<NowPlaying> {
 
                                 break;
                               case CardSwipeOrientation.RIGHT:
+                                api.addViewed(
+                                    api.playingPostersLink[index],
+                                    api.playingTitles[index],
+                                    api.playingOverviews[index],
+                                    api.playingIDs[index]);
                                 if (api.likedTitles
                                     .contains(api.playingTitles[index])) {
                                   ScaffoldMessenger.of(context)

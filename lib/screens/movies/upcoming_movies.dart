@@ -258,6 +258,13 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
                                                 color: Colors.red,
                                                 iconSize: 50,
                                                 onPressed: () {
+                                                  api.addViewed(
+                                                      api.upcomingPostersLink[
+                                                          index],
+                                                      api.upcomingTitles[index],
+                                                      api.upcomingOverviews[
+                                                          index],
+                                                      api.upcomingIDs[index]);
                                                   controller.swipeLeft();
                                                 },
                                                 icon: Icon(FlutterApp.dislike)),
@@ -281,6 +288,13 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
                                                 color: Colors.green,
                                                 iconSize: 50,
                                                 onPressed: () {
+                                                  api.addViewed(
+                                                      api.upcomingPostersLink[
+                                                          index],
+                                                      api.upcomingTitles[index],
+                                                      api.upcomingOverviews[
+                                                          index],
+                                                      api.upcomingIDs[index]);
                                                   controller.swipeRight();
                                                 },
                                                 icon: Icon(FlutterApp.like)),
@@ -302,6 +316,11 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
                             (CardSwipeOrientation orientation, int index) {
                           switch (orientation) {
                             case CardSwipeOrientation.LEFT:
+                              api.addViewed(
+                                  api.upcomingPostersLink[index],
+                                  api.upcomingTitles[index],
+                                  api.upcomingOverviews[index],
+                                  api.upcomingIDs[index]);
                               //print("YESSIR");
                               api.getLiked();
 
@@ -324,6 +343,11 @@ class _UpcomingMoviesState extends State<UpcomingMovies> {
 
                               break;
                             case CardSwipeOrientation.RIGHT:
+                              api.addViewed(
+                                  api.upcomingPostersLink[index],
+                                  api.upcomingTitles[index],
+                                  api.upcomingOverviews[index],
+                                  api.upcomingIDs[index]);
                               if (api.likedTitles
                                   .contains(api.upcomingTitles[index])) {
                                 ScaffoldMessenger.of(context)
