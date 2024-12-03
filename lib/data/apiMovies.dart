@@ -393,6 +393,7 @@ class APImovies {
   }
 
   Future<dynamic> getUpcoming() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/movie/upcoming?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -409,34 +410,59 @@ class APImovies {
           if (data['results'][j]['original_title'] == null) {
             upcomingTitle = '';
           } else {
-            upcomingTitle = data['results'][j]['original_title'];
+            if (!viewedTitles.contains(data['results'][j]['original_title'])) {
+              upcomingTitle = data['results'][j]['original_title'];
+            }
+            //upcomingTitle = data['results'][j]['original_title'];
           }
           if (data['results'][j]['overview'] == null) {
             upcomingOverview = '';
           } else {
-            upcomingOverview = data['results'][j]['overview'];
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              upcomingOverview = data['results'][j]['overview'];
+            }
+            //upcomingOverview = data['results'][j]['overview'];
           }
           //onAirPoster = "First";
           if (data['results'][j]['poster_path'] == null) {
             upcomingPoster = "assets/company_logo.png";
           } else {
-            upcomingPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              upcomingPoster = data['results'][j]['poster_path'];
+            }
+            //upcomingPoster = data['results'][j]['poster_path'];
           }
-
-          upcomingID = data['results'][j]['id'];
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            upcomingID = data['results'][j]['id'];
+          }
+          //upcomingID = data['results'][j]['id'];
 
           // for (var k = 0; i < upcoming.length; i++) {
           // if (upcomingTitle != likedTitles[k].toString()) {
-          upcomingTitles.add(upcomingTitle);
-          upcomingOverviews.add(upcomingOverview);
-          if (upcomingPoster == "assets/company_logo.png") {
-            upcomingPosters.add(AssetImage(upcomingPoster));
-          } else {
-            upcomingPosters.add(NetworkImage(baseURL + upcomingPoster));
-          }
+          if (upcomingTitle != '') {
+            upcomingTitles.add(upcomingTitle);
+            upcomingOverviews.add(upcomingOverview);
+            if (upcomingPoster == "assets/company_logo.png") {
+              upcomingPosters.add(AssetImage(upcomingPoster));
+              upcomingPostersLink.add(upcomingPoster);
+            } else {
+              upcomingPosters.add(NetworkImage(baseURL + upcomingPoster));
+              upcomingPostersLink.add(upcomingPoster);
+            }
 
-          upcomingPostersLink.add(upcomingPoster);
-          upcomingIDs.add(upcomingID);
+            //upcomingPostersLink.add(upcomingPoster);
+            upcomingIDs.add(upcomingID);
+          }
+          // upcomingTitles.add(upcomingTitle);
+          // upcomingOverviews.add(upcomingOverview);
+          // if (upcomingPoster == "assets/company_logo.png") {
+          //   upcomingPosters.add(AssetImage(upcomingPoster));
+          // } else {
+          //   upcomingPosters.add(NetworkImage(baseURL + upcomingPoster));
+          // }
+
+          // upcomingPostersLink.add(upcomingPoster);
+          // upcomingIDs.add(upcomingID);
 
           j++;
           i++;
