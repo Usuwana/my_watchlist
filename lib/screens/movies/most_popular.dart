@@ -266,6 +266,14 @@ class _MostPopularState extends State<MostPopular> {
                                                   color: Colors.red,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.popularPostersLink[
+                                                            index],
+                                                        api.popularTitles[
+                                                            index],
+                                                        api.popularOverviews[
+                                                            index],
+                                                        api.popularIDs[index]);
                                                     controller.swipeLeft();
                                                   },
                                                   icon:
@@ -291,6 +299,14 @@ class _MostPopularState extends State<MostPopular> {
                                                   color: Colors.green,
                                                   iconSize: 50,
                                                   onPressed: () {
+                                                    api.addViewed(
+                                                        api.popularPostersLink[
+                                                            index],
+                                                        api.popularTitles[
+                                                            index],
+                                                        api.popularOverviews[
+                                                            index],
+                                                        api.popularIDs[index]);
                                                     controller.swipeRight();
                                                   },
                                                   icon: Icon(FlutterApp.like)),

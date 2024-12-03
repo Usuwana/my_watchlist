@@ -58,6 +58,10 @@ class APImovies {
   List<dynamic> likedTitles = [];
   List<dynamic> likedOverviews = [];
   List<dynamic> likedIDs = [];
+  List<dynamic> viewedPosters = [];
+  List<dynamic> viewedTitles = [];
+  List<dynamic> viewedOverviews = [];
+  List<dynamic> viewedIDs = [];
   List<dynamic> trending = [];
   late String trailerKey;
   List<dynamic> trailerValues = [];
@@ -101,7 +105,7 @@ class APImovies {
           "poster": poster,
           "id": id
         }).then((value) {
-          print(value.id);
+          print("Aaaaaah" + value.id);
         });
       }
     });
@@ -180,6 +184,27 @@ class APImovies {
     return likedPosters;
   }
 
+  Future<dynamic> getViewed() async {
+    print("This is it");
+    CollectionReference _collectionRef = FirebaseFirestore.instance
+        .collection("allow-users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("viewedMovies");
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    viewedTitles.addAll(querySnapshot.docs.map((doc) => doc["title"]).toList());
+
+    viewedOverviews
+        .addAll(querySnapshot.docs.map((doc) => doc["overview"]).toList());
+    viewedPosters
+        .addAll(querySnapshot.docs.map((doc) => doc["poster"]).toList());
+    viewedIDs.addAll(querySnapshot.docs.map((doc) => doc["id"]).toList());
+    print(viewedPosters);
+
+    print(viewedPosters);
+    return viewedPosters;
+  }
+
   Future<dynamic> getNowPlaying() async {
     Response response = await get(
       Uri.parse(
@@ -251,21 +276,31 @@ class APImovies {
           if (data['results'][j]['title'] == null) {
             popularTitle = '';
           } else {
-            popularTitle = data['results'][j]['title'];
+            if (!(viewedOverviews.contains(data['results'][j]['title']))) {
+              popularTitle = data['results'][j]['title'];
+            }
+            //popularTitle = data['results'][j]['title'];
           }
           if (data['results'][j]['overview'] == null) {
             popularOverview = '';
           } else {
-            popularOverview = data['results'][j]['overview'];
+            if (!(viewedOverviews.contains(data['results'][j]['overview']))) {
+              popularOverview = data['results'][j]['overview'];
+            }
           }
           //onAirPoster = "First";
           if (data['results'][j]['poster_path'] == null) {
             popularPoster = "assets/company_logo.png";
           } else {
-            popularPoster = data['results'][j]['poster_path'];
+            if (!(viewedOverviews
+                .contains(data['results'][j]['poster_path']))) {
+              popularPoster = data['results'][j]['poster_path'];
+            }
           }
 
-          popularID = data['results'][j]['id'];
+          if (!(viewedOverviews.contains(data['results'][j]['id']))) {
+            popularID = data['results'][j]['id'];
+          }
           print(popularID);
           popularTitles.add(popularTitle);
           popularOverviews.add(popularOverview);
