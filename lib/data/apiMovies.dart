@@ -4,10 +4,10 @@ import 'package:http/http.dart';
 import 'dart:convert';
 
 class APImovies {
-  late String playingTitle;
-  late String playingOverview;
-  late String playingPoster;
-  late int playingID;
+  late String playingTitle = '';
+  late String playingOverview = '';
+  late String playingPoster = '';
+  late int playingID = 0;
   String baseURL = "https://image.tmdb.org/t/p/original/";
   List<dynamic> playingPosters = [];
   List<int> playingIDs = [];
@@ -206,6 +206,7 @@ class APImovies {
   }
 
   Future<dynamic> getNowPlaying() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/movie/now_playing?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -222,31 +223,57 @@ class APImovies {
           if (data['results'][j]['original_title'] == null) {
             playingTitle = '';
           } else {
-            playingTitle = data['results'][j]['original_title'];
+            if (!viewedTitles.contains(data['results'][j]['original_title'])) {
+              playingTitle = data['results'][j]['original_title'];
+            }
+            //playingTitle = data['results'][j]['original_title'];
           }
           if (data['results'][j]['overview'] == null) {
             playingOverview = '';
           } else {
-            playingOverview = data['results'][j]['overview'];
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              playingOverview = data['results'][j]['overview'];
+            }
+            //playingOverview = data['results'][j]['overview'];
           }
           if (data['results'][j]['poster_path'] == null) {
             playingPoster = "assets/company_logo.png";
           } else {
-            playingPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              playingPoster = data['results'][j]['poster_path'];
+            }
+            //playingPoster = data['results'][j]['poster_path'];
           }
-          playingID = data['results'][j]['id'];
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            playingID = data['results'][j]['id'];
+          }
+          //playingID = data['results'][j]['id'];
 
           print("THESE THE ONES!");
-          playingTitles.add(playingTitle);
-          playingOverviews.add(playingOverview);
-          if (playingPoster == "assets/company_logo.png") {
-            playingPosters.add(AssetImage(playingPoster));
-          } else {
-            playingPosters.add(NetworkImage(baseURL + playingPoster));
-          }
+          if (playingTitle != '') {
+            playingTitles.add(playingTitle);
+            playingOverviews.add(playingOverview);
+            if (playingPoster == "assets/company_logo.png") {
+              playingPosters.add(AssetImage(playingPoster));
+              playingPostersLink.add(playingPoster);
+            } else {
+              playingPosters.add(NetworkImage(baseURL + playingPoster));
+              playingPostersLink.add(playingPoster);
+            }
 
-          playingPostersLink.add(playingPoster);
-          playingIDs.add(playingID);
+            //playingPostersLink.add(playingPoster);
+            playingIDs.add(playingID);
+          }
+          // playingTitles.add(playingTitle);
+          // playingOverviews.add(playingOverview);
+          // if (playingPoster == "assets/company_logo.png") {
+          //   playingPosters.add(AssetImage(playingPoster));
+          // } else {
+          //   playingPosters.add(NetworkImage(baseURL + playingPoster));
+          // }
+
+          // playingPostersLink.add(playingPoster);
+          // playingIDs.add(playingID);
 
           j++;
           i++;
