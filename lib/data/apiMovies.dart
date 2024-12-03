@@ -313,6 +313,7 @@ class APImovies {
           if (popularTitle != '') {
             popularTitles.add(popularTitle);
             popularOverviews.add(popularOverview);
+            popularIDs.add(popularID);
             if (popularPoster == "assets/company_logo.png") {
               popularPosters.add(AssetImage(popularPoster));
               popularPostersLink.add(popularPoster);
@@ -320,7 +321,6 @@ class APImovies {
               popularPosters.add(NetworkImage(baseURL + popularPoster));
               popularPostersLink.add(popularPoster);
             }
-            popularIDs.add(popularID);
           }
           // if ((popularTitle != null) || (popularTitle != '')) {
           //   popularTitles.add(popularTitle);
