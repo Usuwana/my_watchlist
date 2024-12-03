@@ -15,10 +15,10 @@ class APImovies {
   List<String> playingTitles = [];
   List<String> playingOverviews = [];
   List<dynamic> nowPlaying = [];
-  late String popularTitle;
-  late String popularOverview;
-  late String popularPoster;
-  late int popularID;
+  late String popularTitle = '';
+  late String popularOverview = '';
+  late String popularPoster = '';
+  late int popularID = 0;
   List<dynamic> popularIDs = [];
   List<dynamic> popularPosters = [];
   List<String> popularPostersLink = [];
@@ -260,6 +260,7 @@ class APImovies {
   }
 
   Future<dynamic> getMostPopular() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/movie/popular?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -269,7 +270,7 @@ class APImovies {
 
     int i = 0;
     int j = 0;
-    await getViewed();
+
     // popularTitle = '';
     // popularID = 0;
     // popularOverview = '';
@@ -307,17 +308,42 @@ class APImovies {
           // } else {
           //   popularID = data['results'][j]['id'];
           // }
-          print(popularID);
-          popularTitles.add(popularTitle);
-          popularOverviews.add(popularOverview);
-          if (popularPoster == "assets/company_logo.png") {
-            popularPosters.add(AssetImage(popularPoster));
-          } else {
-            popularPosters.add(NetworkImage(baseURL + popularPoster));
-          }
+          //print(popularID);
 
-          popularPostersLink.add(popularPoster);
-          popularIDs.add(popularID);
+          if (popularTitle != '') {
+            popularTitles.add(popularTitle);
+            popularOverviews.add(popularOverview);
+            if (popularPoster == "assets/company_logo.png") {
+              popularPosters.add(AssetImage(popularPoster));
+              popularPostersLink.add(popularPoster);
+            } else {
+              popularPosters.add(NetworkImage(baseURL + popularPoster));
+              popularPostersLink.add(popularPoster);
+            }
+            popularIDs.add(popularID);
+          }
+          // if ((popularTitle != null) || (popularTitle != '')) {
+          //   popularTitles.add(popularTitle);
+          // }
+          // if ((popularOverview != null) || (popularOverview != '')) {
+          //   popularOverviews.add(popularOverview);
+          // }
+
+          // if (popularPoster == "assets/company_logo.png") {
+          //   popularPosters.add(AssetImage(popularPoster));
+          // } else {
+          //   popularPosters.add(NetworkImage(baseURL + popularPoster));
+          // }
+          // if ((popularPoster != null) ||
+          //     (popularPoster != '') ||
+          //     (popularPoster != "assets/company_logo.png")) {
+          //   popularPostersLink.add(popularPoster);
+          // }
+          // //popularPostersLink.add(popularPoster);
+          // if ((popularID != null) || (popularID != '') || (popularID != 0)) {
+          //   popularIDs.add(popularID);
+          // }
+          //popularIDs.add(popularID);
           //popularIDs.add(getTrailer(popularID));
 
           j++;
@@ -328,6 +354,14 @@ class APImovies {
       throw new Exception("Could not get movies in play. Status code " +
           response.statusCode.toString());
     }
+    print("These are the numbers fam:");
+    print(popularTitles.length);
+    print(popularOverviews.length);
+    print(popularOverviews);
+    print(popularIDs.length);
+    print(popularIDs);
+    print(popularPosters.length);
+    print(popularPosters);
     return popularPosters;
   }
 

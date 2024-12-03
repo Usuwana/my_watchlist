@@ -118,6 +118,9 @@ class _MostPopularState extends State<MostPopular> {
             //initialData: api.getLiked(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                print("But what are we actually saying?");
+                print(api.popularPosters.length);
+                print(api.popularPostersLink.length);
                 api.getLiked();
                 return Column(
                   children: [
