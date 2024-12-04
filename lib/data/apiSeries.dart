@@ -279,6 +279,7 @@ class APIseries {
   }
 
   Future<dynamic> getMostPopular() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/tv/popular?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -292,26 +293,61 @@ class APIseries {
     if (response.statusCode == 200) {
       while (i < data.length) {
         while (j < popular.length) {
-          popularTitle = data['results'][j]['name'];
-          popularOverview = data['results'][j]['overview'];
+          //popularTitle = data['results'][j]['name'];
+          //popularOverview = data['results'][j]['overview'];
+
+          if (data['results'][j]['name'] == null) {
+            popularTitle = '';
+          } else {
+            if (!viewedTitles.contains(data['results'][j]['name'])) {
+              popularTitle = data['results'][j]['name'];
+            }
+          }
+
+          if (data['results'][j]['overview'] == null) {
+            popularOverview = '';
+          } else {
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              popularOverview = data['results'][j]['overview'];
+            }
+          }
 
           if (data['results'][j]['poster_path'] == null) {
             popularPoster = "assets/company_logo.png";
           } else {
-            popularPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              popularPoster = data['results'][j]['poster_path'];
+            }
+            //popularPoster = data['results'][j]['poster_path'];
           }
 
-          popularID = data['results'][j]['id'];
-          popularTitles.add(popularTitle);
-          popularOverviews.add(popularOverview);
-          if (popularPoster == "assets/company_logo.png") {
-            popularPosters.add(AssetImage(popularPoster));
-          } else {
-            popularPosters.add(NetworkImage(baseURL + popularPoster));
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            popularID = data['results'][j]['id'];
           }
+          //popularID = data['results'][j]['id'];
 
-          popularPostersLinks.add(popularPoster);
-          popularIDs.add(popularID);
+          if (popularTitle != '') {
+            popularTitles.add(popularTitle);
+            popularOverviews.add(popularOverview);
+            if (popularPoster == "assets/company_logo.png") {
+              popularPosters.add(AssetImage(popularPoster));
+            } else {
+              popularPosters.add(NetworkImage(baseURL + popularPoster));
+            }
+
+            popularPostersLinks.add(popularPoster);
+            popularIDs.add(popularID);
+          }
+          // popularTitles.add(popularTitle);
+          // popularOverviews.add(popularOverview);
+          // if (popularPoster == "assets/company_logo.png") {
+          //   popularPosters.add(AssetImage(popularPoster));
+          // } else {
+          //   popularPosters.add(NetworkImage(baseURL + popularPoster));
+          // }
+
+          // popularPostersLinks.add(popularPoster);
+          // popularIDs.add(popularID);
 
           j++;
           i++;
