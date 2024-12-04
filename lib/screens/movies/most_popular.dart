@@ -139,199 +139,233 @@ class _MostPopularState extends State<MostPopular> {
                             maxHeight: MediaQuery.of(context).size.height,
                             minWidth: MediaQuery.of(context).size.width * 0.9,
                             minHeight: MediaQuery.of(context).size.height * 0.9,
-                            cardBuilder: (context, index) => Card(
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Center(
-                                    child: FadeInImage(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.9,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.9,
-                                      fit: BoxFit.fill,
-                                      placeholder:
-                                          AssetImage("assets/company_logo.png"),
-                                      image: api.popularPosters[index],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: MediaQuery.of(context).size.width *
-                                        0.05,
-                                    bottom: 120,
-                                    child: Center(
-                                      child: Container(
-                                          alignment: Alignment.bottomCenter,
+                            cardBuilder: (context, index) {
+                              if (index < api.popularPosters.length) {
+                                return Card(
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Center(
+                                        child: FadeInImage(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.8,
+                                              0.9,
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.8,
-                                          child: SingleChildScrollView(
-                                            child: ReadMoreText(
-                                              api.popularOverviews[index],
-                                              trimLines: 1,
-                                              colorClickableText: Colors.pink,
-                                              trimMode: TrimMode.Line,
-                                              trimCollapsedText: '...Show more',
-                                              trimExpandedText: ' show less',
-                                              style: GoogleFonts.getFont(
-                                                      'Montserrat')
-                                                  .copyWith(
-                                                      fontSize: 15,
-                                                      color: Colors.white,
-                                                      backgroundColor: Colors
-                                                          .blueGrey
-                                                          .withOpacity(0.3)),
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    top: 0,
-                                    child: TextButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStatePropertyAll<Color>(
-                                                    Colors.grey
-                                                        .withOpacity(0.5))),
-                                        onPressed: () async {
-                                          //await launchVid(index);
-                                          _getMovieTrailer(
-                                              api.popularIDs[index]);
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return Center(
-                                                  child: SizedBox(
-                                                    width: 40,
-                                                    height: 40,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                );
+                                              0.9,
+                                          fit: BoxFit.fill,
+                                          placeholder: AssetImage(
+                                              "assets/company_logo.png"),
+                                          image: api.popularPosters[index],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                        bottom: 120,
+                                        child: Center(
+                                          child: Container(
+                                              alignment: Alignment.bottomCenter,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.8,
+                                              child: SingleChildScrollView(
+                                                child: ReadMoreText(
+                                                  api.popularOverviews[index],
+                                                  trimLines: 1,
+                                                  colorClickableText:
+                                                      Colors.pink,
+                                                  trimMode: TrimMode.Line,
+                                                  trimCollapsedText:
+                                                      '...Show more',
+                                                  trimExpandedText:
+                                                      ' show less',
+                                                  style: GoogleFonts.getFont(
+                                                          'Montserrat')
+                                                      .copyWith(
+                                                          fontSize: 15,
+                                                          color: Colors.white,
+                                                          backgroundColor:
+                                                              Colors.blueGrey
+                                                                  .withOpacity(
+                                                                      0.3)),
+                                                ),
+                                              )),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 10,
+                                        top: 0,
+                                        child: TextButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll<
+                                                            Color>(
+                                                        Colors.grey
+                                                            .withOpacity(0.5))),
+                                            onPressed: () async {
+                                              //await launchVid(index);
+                                              _getMovieTrailer(
+                                                  api.popularIDs[index]);
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Center(
+                                                      child: SizedBox(
+                                                        width: 40,
+                                                        height: 40,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  });
+                                              Future.delayed(
+                                                  Duration(seconds: 4), () {
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                                if (trailerYouTubeID == '') {
+                                                  const snackBar = SnackBar(
+                                                    content: Text(
+                                                        'Movie trailer not available'),
+                                                    backgroundColor:
+                                                        Colors.black,
+                                                  );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+                                                  _showTrailer == false;
+                                                } else {
+                                                  showMovieTrailerDialog(
+                                                      context);
+                                                  _showTrailer == false;
+                                                  trailerYouTubeID == '';
+                                                }
                                               });
-                                          Future.delayed(Duration(seconds: 4),
-                                              () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
-                                            if (trailerYouTubeID == '') {
-                                              const snackBar = SnackBar(
-                                                content: Text(
-                                                    'Movie trailer not available'),
-                                                backgroundColor: Colors.black,
-                                              );
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(snackBar);
-                                              _showTrailer == false;
-                                            } else {
-                                              showMovieTrailerDialog(context);
-                                              _showTrailer == false;
-                                              trailerYouTubeID == '';
-                                            }
-                                          });
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Text("WATCH TRAILER",
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                            SizedBox(
-                                              width: 2,
-                                            ),
-                                            Image.asset('assets/youtube.png',
-                                                width: 20, height: 20)
-                                          ],
-                                        )),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20.0),
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.4,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Text("WATCH TRAILER",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                SizedBox(
+                                                  width: 2,
+                                                ),
+                                                Image.asset(
+                                                    'assets/youtube.png',
+                                                    width: 20,
+                                                    height: 20)
+                                              ],
+                                            )),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20.0),
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.red,
+                                                            width: 3),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15)),
+                                                    child: IconButton(
                                                         color: Colors.red,
-                                                        width: 3),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: IconButton(
-                                                    color: Colors.red,
-                                                    iconSize: 50,
-                                                    onPressed: () {
-                                                      api.addViewed(
-                                                          api.popularPostersLink[
-                                                              index],
-                                                          api.popularTitles[
-                                                              index],
-                                                          api.popularOverviews[
-                                                              index],
-                                                          api.popularIDs[
-                                                              index]);
-                                                      controller.swipeLeft();
-                                                    },
-                                                    icon: Icon(
-                                                        FlutterApp.dislike)),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20.0),
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.4,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
+                                                        iconSize: 50,
+                                                        onPressed: () {
+                                                          api.addViewed(
+                                                              api.popularPostersLink[
+                                                                  index],
+                                                              api.popularTitles[
+                                                                  index],
+                                                              api.popularOverviews[
+                                                                  index],
+                                                              api.popularIDs[
+                                                                  index]);
+                                                          controller
+                                                              .swipeLeft();
+                                                        },
+                                                        icon: Icon(FlutterApp
+                                                            .dislike)),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20.0),
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.4,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.green,
+                                                            width: 3),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15)),
+                                                    child: IconButton(
                                                         color: Colors.green,
-                                                        width: 3),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: IconButton(
-                                                    color: Colors.green,
-                                                    iconSize: 50,
-                                                    onPressed: () {
-                                                      api.addViewed(
-                                                          api.popularPostersLink[
-                                                              index],
-                                                          api.popularTitles[
-                                                              index],
-                                                          api.popularOverviews[
-                                                              index],
-                                                          api.popularIDs[
-                                                              index]);
-                                                      controller.swipeRight();
-                                                    },
-                                                    icon:
-                                                        Icon(FlutterApp.like)),
-                                              ),
-                                            )
-                                          ],
-                                        )),
+                                                        iconSize: 50,
+                                                        onPressed: () {
+                                                          api.addViewed(
+                                                              api.popularPostersLink[
+                                                                  index],
+                                                              api.popularTitles[
+                                                                  index],
+                                                              api.popularOverviews[
+                                                                  index],
+                                                              api.popularIDs[
+                                                                  index]);
+                                                          controller
+                                                              .swipeRight();
+                                                        },
+                                                        icon: Icon(
+                                                            FlutterApp.like)),
+                                                  ),
+                                                )
+                                              ],
+                                            )),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
+                                );
+                              } else {
+                                return Container(
+                                  margin: EdgeInsets.all(10),
+                                  color: Colors.blueGrey,
+                                  child: Center(
+                                    child: Text(
+                                        "No movies to display at this moment"),
+                                  ),
+                                );
+                              }
+                            },
                             cardController: controller = CardController(),
                             swipeUpdateCallback:
                                 (DragUpdateDetails details, Alignment align) {
