@@ -361,6 +361,7 @@ class APIseries {
   }
 
   Future<dynamic> getTopRated() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/tv/top_rated?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -377,31 +378,55 @@ class APIseries {
           if (data['results'][j]['name'] == null) {
             ratedTitle = '';
           } else {
-            ratedTitle = data['results'][j]['name'];
+            if (!viewedTitles.contains(data['results'][j]['name'])) {
+              ratedTitle = data['results'][j]['name'];
+            }
+            //ratedTitle = data['results'][j]['name'];
           }
           if (data['results'][j]['overview'] == null) {
             ratedOverview = '';
           } else {
-            ratedOverview = data['results'][j]['overview'];
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              ratedOverview = data['results'][j]['overview'];
+            }
+            //ratedOverview = data['results'][j]['overview'];
           }
 
           if (data['results'][j]['poster_path'] == null) {
             ratedPoster = "assets/company_logo.png";
           } else {
-            ratedPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              ratedPoster = data['results'][j]['poster_path'];
+            }
+            //ratedPoster = data['results'][j]['poster_path'];
           }
 
-          ratedID = data['results'][j]['id'];
-          ratedTitles.add(ratedTitle);
-          ratedOverviews.add(ratedOverview);
-          ratedIDs.add(ratedID);
-          if (ratedPoster == "assets/company_logo.png") {
-            ratedPosters.add(AssetImage(ratedPoster));
-          } else {
-            ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            ratedID = data['results'][j]['id'];
           }
+          //ratedID = data['results'][j]['id'];
+          if (ratedTitle != '') {
+            ratedTitles.add(ratedTitle);
+            ratedOverviews.add(ratedOverview);
+            ratedIDs.add(ratedID);
+            if (ratedPoster == "assets/company_logo.png") {
+              ratedPosters.add(AssetImage(ratedPoster));
+            } else {
+              ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+            }
 
-          ratedPostersLinks.add(ratedPoster);
+            ratedPostersLinks.add(ratedPoster);
+          }
+          // ratedTitles.add(ratedTitle);
+          // ratedOverviews.add(ratedOverview);
+          // ratedIDs.add(ratedID);
+          // if (ratedPoster == "assets/company_logo.png") {
+          //   ratedPosters.add(AssetImage(ratedPoster));
+          // } else {
+          //   ratedPosters.add(NetworkImage(baseURL + ratedPoster));
+          // }
+
+          // ratedPostersLinks.add(ratedPoster);
           j++;
           i++;
         }
