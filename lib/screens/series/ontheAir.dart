@@ -261,6 +261,12 @@ class _OnAirState extends State<OnAir> {
                                                 color: Colors.red,
                                                 iconSize: 50,
                                                 onPressed: () {
+                                                  api.addViewed(
+                                                      api.onAirPostersLinks[
+                                                          index],
+                                                      api.onAirTitles[index],
+                                                      api.onAirOverviews[index],
+                                                      api.onAirIDs[index]);
                                                   controller.swipeLeft();
                                                 },
                                                 icon: Icon(FlutterApp.dislike)),
@@ -284,6 +290,12 @@ class _OnAirState extends State<OnAir> {
                                                 color: Colors.green,
                                                 iconSize: 50,
                                                 onPressed: () {
+                                                  api.addViewed(
+                                                      api.onAirPostersLinks[
+                                                          index],
+                                                      api.onAirTitles[index],
+                                                      api.onAirOverviews[index],
+                                                      api.onAirIDs[index]);
                                                   controller.swipeRight();
                                                 },
                                                 icon: Icon(FlutterApp.like)),
@@ -305,6 +317,11 @@ class _OnAirState extends State<OnAir> {
                             (CardSwipeOrientation orientation, int index) {
                           switch (orientation) {
                             case CardSwipeOrientation.LEFT:
+                              api.addViewed(
+                                  api.onAirPostersLinks[index],
+                                  api.onAirTitles[index],
+                                  api.onAirOverviews[index],
+                                  api.onAirIDs[index]);
                               print("YESSIR");
                               api.getLiked();
                               ScaffoldMessenger.of(context)
@@ -326,6 +343,11 @@ class _OnAirState extends State<OnAir> {
 
                               break;
                             case CardSwipeOrientation.RIGHT:
+                              api.addViewed(
+                                  api.onAirPostersLinks[index],
+                                  api.onAirTitles[index],
+                                  api.onAirOverviews[index],
+                                  api.onAirIDs[index]);
                               if (api.likedTitles
                                   .contains(api.onAirTitles[index])) {
                                 ScaffoldMessenger.of(context)

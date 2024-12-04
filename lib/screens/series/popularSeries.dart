@@ -261,6 +261,13 @@ class _PopularSeriesState extends State<PopularSeries> {
                                                 color: Colors.red,
                                                 iconSize: 50,
                                                 onPressed: () {
+                                                  api.addViewed(
+                                                      api.popularPostersLinks[
+                                                          index],
+                                                      api.popularTitles[index],
+                                                      api.popularOverviews[
+                                                          index],
+                                                      api.popularIDs[index]);
                                                   controller.swipeLeft();
                                                 },
                                                 icon: Icon(FlutterApp.dislike)),
@@ -284,6 +291,13 @@ class _PopularSeriesState extends State<PopularSeries> {
                                                 color: Colors.green,
                                                 iconSize: 50,
                                                 onPressed: () {
+                                                  api.addViewed(
+                                                      api.popularPostersLinks[
+                                                          index],
+                                                      api.popularTitles[index],
+                                                      api.popularOverviews[
+                                                          index],
+                                                      api.popularIDs[index]);
                                                   controller.swipeRight();
                                                 },
                                                 icon: Icon(FlutterApp.like)),
@@ -305,6 +319,11 @@ class _PopularSeriesState extends State<PopularSeries> {
                             (CardSwipeOrientation orientation, int index) {
                           switch (orientation) {
                             case CardSwipeOrientation.LEFT:
+                              api.addViewed(
+                                  api.popularPostersLinks[index],
+                                  api.popularTitles[index],
+                                  api.popularOverviews[index],
+                                  api.popularIDs[index]);
                               print("YESSIR");
                               api.getLiked();
                               ScaffoldMessenger.of(context)
@@ -326,6 +345,11 @@ class _PopularSeriesState extends State<PopularSeries> {
 
                               break;
                             case CardSwipeOrientation.RIGHT:
+                              api.addViewed(
+                                  api.popularPostersLinks[index],
+                                  api.popularTitles[index],
+                                  api.popularOverviews[index],
+                                  api.popularIDs[index]);
                               if (api.likedTitles
                                   .contains(api.popularTitles[index])) {
                                 ScaffoldMessenger.of(context)
