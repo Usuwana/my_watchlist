@@ -4,10 +4,10 @@ import 'package:http/http.dart';
 import 'dart:convert';
 
 class APIseries {
-  late String onAirTitle;
-  late String onAirOverview;
-  late String onAirPoster;
-  late int onAirID;
+  late String onAirTitle = '';
+  late String onAirOverview = '';
+  late String onAirPoster = '';
+  late int onAirID = 0;
   String baseURL = "https://image.tmdb.org/t/p/original/";
   List<dynamic> onAirPosters = [];
   List<String> onAirPostersLinks = [];
@@ -15,10 +15,10 @@ class APIseries {
   List<String> onAirOverviews = [];
   List<int> onAirIDs = [];
   List<dynamic> onAir = [];
-  late String popularTitle;
-  late String popularOverview;
-  late String popularPoster;
-  late int popularID;
+  late String popularTitle = '';
+  late String popularOverview = '';
+  late String popularPoster = '';
+  late int popularID = 0;
   List<dynamic> popularPosters = [];
   List<String> popularPostersLinks = [];
   List<String> popularTitles = [];
@@ -26,10 +26,10 @@ class APIseries {
   List<dynamic> popularIDs = [];
   List<dynamic> popular = [];
 
-  late String ratedTitle;
-  late String ratedOverview;
-  late String ratedPoster;
-  late int ratedID;
+  late String ratedTitle = '';
+  late String ratedOverview = '';
+  late String ratedPoster = '';
+  late int ratedID = 0;
   List<dynamic> ratedPosters = [];
   List<String> ratedPostersLinks = [];
   List<String> ratedTitles = [];
@@ -43,7 +43,33 @@ class APIseries {
   List<dynamic> likedIDs = [];
   List<dynamic> latest = [];
 
+  List<dynamic> viewedPosters = [];
+  List<dynamic> viewedTitles = [];
+  List<dynamic> viewedOverviews = [];
+  List<dynamic> viewedIDs = [];
+
   final firestoreInstance = FirebaseFirestore.instance;
+
+  Future<void> addViewed(
+      String poster, String title, String overview, int id) async {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        //print(user.uid);
+        firestoreInstance
+            .collection("allow-users")
+            .doc(user.uid)
+            .collection("viewedSeries")
+            .add({
+          "title": title,
+          "overview": overview,
+          "poster": poster,
+          "id": id
+        }).then((value) {
+          print(value.id);
+        });
+      }
+    });
+  }
 
   Future<void> addLiked(
       String poster, String title, String overview, int id) async {
@@ -150,7 +176,29 @@ class APIseries {
     return likedPosters;
   }
 
+  Future<dynamic> getViewed() async {
+    print("This is it");
+    CollectionReference _collectionRef = FirebaseFirestore.instance
+        .collection("allow-users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("viewedMovies");
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    viewedTitles.addAll(querySnapshot.docs.map((doc) => doc["title"]).toList());
+
+    viewedOverviews
+        .addAll(querySnapshot.docs.map((doc) => doc["overview"]).toList());
+    viewedPosters
+        .addAll(querySnapshot.docs.map((doc) => doc["poster"]).toList());
+    viewedIDs.addAll(querySnapshot.docs.map((doc) => doc["id"]).toList());
+    print(viewedPosters);
+
+    print(viewedPosters);
+    return viewedPosters;
+  }
+
   Future<dynamic> getOnAir() async {
+    await getViewed();
     Response response = await get(
       Uri.parse(
           'https://api.themoviedb.org/3/tv/on_the_air?api_key=01654b20e22c2a6a6d22085d00bd3373'),
@@ -167,31 +215,57 @@ class APIseries {
           if (data['results'][j]['name'] == null) {
             onAirTitle = '';
           } else {
-            onAirTitle = data['results'][j]['name'];
+            if (!viewedTitles.contains(data['results'][j]['name'])) {
+              onAirTitle = data['results'][j]['name'];
+            }
+            //onAirTitle = data['results'][j]['name'];
           }
           if (data['results'][j]['overview'] == null) {
             onAirOverview = '';
           } else {
-            onAirOverview = data['results'][j]['overview'];
+            if (!viewedOverviews.contains(data['results'][j]['overview'])) {
+              onAirOverview = data['results'][j]['overview'];
+            }
+            //onAirOverview = data['results'][j]['overview'];
           }
           //onAirPoster = "First";
           if (data['results'][j]['poster_path'] == null) {
             onAirPoster = "assets/company_logo.png";
           } else {
-            onAirPoster = data['results'][j]['poster_path'];
+            if (!viewedPosters.contains(data['results'][j]['poster_path'])) {
+              onAirPoster = data['results'][j]['poster_path'];
+            }
+            //onAirPoster = data['results'][j]['poster_path'];
           }
 
-          onAirID = data['results'][j]['id'];
-          onAirTitles.add(onAirTitle);
-          onAirOverviews.add(onAirOverview);
-          if (onAirPoster == "assets/company_logo.png") {
-            onAirPosters.add(AssetImage(onAirPoster));
-          } else {
-            onAirPosters.add(NetworkImage(baseURL + onAirPoster));
+          if (!viewedIDs.contains(data['results'][j]['id'])) {
+            onAirID = data['results'][j]['id'];
           }
 
-          onAirPostersLinks.add(onAirPoster);
-          onAirIDs.add(onAirID);
+          //onAirID = data['results'][j]['id'];
+
+          if (onAirTitle != '') {
+            onAirTitles.add(onAirTitle);
+            onAirOverviews.add(onAirOverview);
+            if (onAirPoster == "assets/company_logo.png") {
+              onAirPosters.add(AssetImage(onAirPoster));
+            } else {
+              onAirPosters.add(NetworkImage(baseURL + onAirPoster));
+            }
+
+            onAirPostersLinks.add(onAirPoster);
+            onAirIDs.add(onAirID);
+          }
+          // onAirTitles.add(onAirTitle);
+          // onAirOverviews.add(onAirOverview);
+          // if (onAirPoster == "assets/company_logo.png") {
+          //   onAirPosters.add(AssetImage(onAirPoster));
+          // } else {
+          //   onAirPosters.add(NetworkImage(baseURL + onAirPoster));
+          // }
+
+          // onAirPostersLinks.add(onAirPoster);
+          // onAirIDs.add(onAirID);
 
           j++;
           i++;
