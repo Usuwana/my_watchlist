@@ -181,7 +181,7 @@ class APIseries {
     CollectionReference _collectionRef = FirebaseFirestore.instance
         .collection("allow-users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection("viewedMovies");
+        .collection("viewedSeries");
     QuerySnapshot querySnapshot = await _collectionRef.get();
 
     viewedTitles.addAll(querySnapshot.docs.map((doc) => doc["title"]).toList());
