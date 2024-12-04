@@ -114,244 +114,228 @@ class _TopRatedSeriesState extends State<TopRatedSeries> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               api.getLiked();
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      child: new SwipeCard(
-                        allowVerticalMovement: false,
-                        stackNum: 3,
-                        totalNum: api.top_rated.length,
-                        swipeEdge: 4.0,
-                        maxWidth: MediaQuery.of(context).size.width,
-                        maxHeight: MediaQuery.of(context).size.height,
-                        minWidth: MediaQuery.of(context).size.width * 0.9,
-                        minHeight: MediaQuery.of(context).size.height * 0.9,
-                        cardBuilder: (context, index) => Card(
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Positioned(
-                                child: FadeInImage(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.9,
-                                  fit: BoxFit.fill,
-                                  placeholder:
-                                      AssetImage("assets/company_logo.png"),
-                                  image: api.ratedPosters[index],
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.75,
+                        child: new SwipeCard(
+                          allowVerticalMovement: false,
+                          stackNum: 3,
+                          totalNum: api.top_rated.length,
+                          swipeEdge: 4.0,
+                          maxWidth: MediaQuery.of(context).size.width,
+                          maxHeight: MediaQuery.of(context).size.height,
+                          minWidth: MediaQuery.of(context).size.width * 0.9,
+                          minHeight: MediaQuery.of(context).size.height * 0.9,
+                          cardBuilder: (context, index) => Card(
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Positioned(
+                                  child: FadeInImage(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.9,
+                                    fit: BoxFit.fill,
+                                    placeholder:
+                                        AssetImage("assets/company_logo.png"),
+                                    image: api.ratedPosters[index],
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                left: MediaQuery.of(context).size.width * 0.05,
-                                bottom: 80,
-                                child: Center(
-                                  child: Container(
-                                      alignment: Alignment.bottomCenter,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.8,
-                                      child: SingleChildScrollView(
-                                        child: ReadMoreText(
-                                          api.ratedOverviews[index],
-                                          trimLines: 1,
-                                          colorClickableText: Colors.pink,
-                                          trimMode: TrimMode.Line,
-                                          trimCollapsedText: '...Show more',
-                                          trimExpandedText: ' show less',
-                                          textAlign: TextAlign.justify,
-                                          style:
-                                              GoogleFonts.getFont('Montserrat')
-                                                  .copyWith(
-                                                      fontSize: 15,
-                                                      color: Colors.white,
-                                                      backgroundColor: Colors
-                                                          .black
-                                                          .withOpacity(0.3)),
-                                        ),
+                                Positioned(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  bottom: 80,
+                                  child: Center(
+                                    child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.8,
+                                        child: SingleChildScrollView(
+                                          child: ReadMoreText(
+                                            api.ratedOverviews[index],
+                                            trimLines: 1,
+                                            colorClickableText: Colors.pink,
+                                            trimMode: TrimMode.Line,
+                                            trimCollapsedText: '...Show more',
+                                            trimExpandedText: ' show less',
+                                            textAlign: TextAlign.justify,
+                                            style: GoogleFonts.getFont(
+                                                    'Montserrat')
+                                                .copyWith(
+                                                    fontSize: 15,
+                                                    color: Colors.white,
+                                                    backgroundColor: Colors
+                                                        .black
+                                                        .withOpacity(0.3)),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 10,
+                                  top: 0,
+                                  child: TextButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll<Color>(
+                                                  Colors.grey
+                                                      .withOpacity(0.5))),
+                                      onPressed: () async {
+                                        //await launchVid(index);
+                                        _getMovieTrailer(api.ratedIDs[index]);
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 40,
+                                                  height: 40,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                        Future.delayed(Duration(seconds: 4),
+                                            () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                          if (trailerYouTubeID == '') {
+                                            const snackBar = SnackBar(
+                                              content: Text(
+                                                  'Movie trailer not available'),
+                                              backgroundColor: Colors.black,
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            _showTrailer == false;
+                                          } else {
+                                            showMovieTrailerDialog(context);
+                                            _showTrailer == false;
+                                            trailerYouTubeID == '';
+                                          }
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text("WATCH TRAILER",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                          SizedBox(
+                                            width: 2,
+                                          ),
+                                          Image.asset('assets/youtube.png',
+                                              width: 20, height: 20)
+                                        ],
                                       )),
                                 ),
-                              ),
-                              Positioned(
-                                right: 10,
-                                top: 0,
-                                child: TextButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll<Color>(
-                                                Colors.grey.withOpacity(0.5))),
-                                    onPressed: () async {
-                                      //await launchVid(index);
-                                      _getMovieTrailer(api.ratedIDs[index]);
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 40,
-                                                height: 40,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            );
-                                          });
-                                      Future.delayed(Duration(seconds: 4), () {
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
-                                        if (trailerYouTubeID == '') {
-                                          const snackBar = SnackBar(
-                                            content: Text(
-                                                'Movie trailer not available'),
-                                            backgroundColor: Colors.black,
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                          _showTrailer == false;
-                                        } else {
-                                          showMovieTrailerDialog(context);
-                                          _showTrailer == false;
-                                          trailerYouTubeID == '';
-                                        }
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text("WATCH TRAILER",
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        SizedBox(
-                                          width: 2,
-                                        ),
-                                        Image.asset('assets/youtube.png',
-                                            width: 20, height: 20)
-                                      ],
-                                    )),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.red,
-                                                    width: 3),
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: IconButton(
-                                                color: Colors.red,
-                                                iconSize: 50,
-                                                onPressed: () {
-                                                  api.addViewed(
-                                                      api.ratedPostersLinks[
-                                                          index],
-                                                      api.ratedTitles[index],
-                                                      api.ratedOverviews[index],
-                                                      api.ratedIDs[index]);
-                                                  controller.swipeLeft();
-                                                },
-                                                icon: Icon(FlutterApp.dislike)),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.4,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.red,
+                                                      width: 3),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: IconButton(
+                                                  color: Colors.red,
+                                                  iconSize: 50,
+                                                  onPressed: () {
+                                                    api.addViewed(
+                                                        api.ratedPostersLinks[
+                                                            index],
+                                                        api.ratedTitles[index],
+                                                        api.ratedOverviews[
+                                                            index],
+                                                        api.ratedIDs[index]);
+                                                    controller.swipeLeft();
+                                                  },
+                                                  icon:
+                                                      Icon(FlutterApp.dislike)),
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20.0),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.green,
-                                                    width: 3),
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: IconButton(
-                                                color: Colors.green,
-                                                iconSize: 50,
-                                                onPressed: () {
-                                                  api.addViewed(
-                                                      api.ratedPostersLinks[
-                                                          index],
-                                                      api.ratedTitles[index],
-                                                      api.ratedOverviews[index],
-                                                      api.ratedIDs[index]);
-                                                  controller.swipeRight();
-                                                },
-                                                icon: Icon(FlutterApp.like)),
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ),
-                        cardController: controller = CardController(),
-                        swipeUpdateCallback:
-                            (DragUpdateDetails details, Alignment align) {
-                          if (align.x < 0) {
-                          } else if (align.x > 0) {}
-                        },
-                        swipeCompleteCallback:
-                            (CardSwipeOrientation orientation, int index) {
-                          switch (orientation) {
-                            case CardSwipeOrientation.LEFT:
-                              api.addViewed(
-                                  api.ratedPostersLinks[index],
-                                  api.ratedTitles[index],
-                                  api.ratedOverviews[index],
-                                  api.ratedIDs[index]);
-                              print("YESSIR");
-                              api.getLiked();
-
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Center(
-                                  child: Text('DISLIKED!',
-                                      style: GoogleFonts.getFont('Montserrat')
-                                          .copyWith(
-                                              fontSize: 50,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.4,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.green,
+                                                      width: 3),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: IconButton(
+                                                  color: Colors.green,
+                                                  iconSize: 50,
+                                                  onPressed: () {
+                                                    api.addViewed(
+                                                        api.ratedPostersLinks[
+                                                            index],
+                                                        api.ratedTitles[index],
+                                                        api.ratedOverviews[
+                                                            index],
+                                                        api.ratedIDs[index]);
+                                                    controller.swipeRight();
+                                                  },
+                                                  icon: Icon(FlutterApp.like)),
+                                            ),
+                                          )
+                                        ],
+                                      )),
                                 ),
-                                backgroundColor: Colors.transparent,
-                                duration: Duration(milliseconds: 100),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                              ));
+                              ],
+                            ),
+                          ),
+                          cardController: controller = CardController(),
+                          swipeUpdateCallback:
+                              (DragUpdateDetails details, Alignment align) {
+                            if (align.x < 0) {
+                            } else if (align.x > 0) {}
+                          },
+                          swipeCompleteCallback:
+                              (CardSwipeOrientation orientation, int index) {
+                            switch (orientation) {
+                              case CardSwipeOrientation.LEFT:
+                                api.addViewed(
+                                    api.ratedPostersLinks[index],
+                                    api.ratedTitles[index],
+                                    api.ratedOverviews[index],
+                                    api.ratedIDs[index]);
+                                print("YESSIR");
+                                api.getLiked();
 
-                              break;
-                            case CardSwipeOrientation.RIGHT:
-                              api.addViewed(
-                                  api.ratedPostersLinks[index],
-                                  api.ratedTitles[index],
-                                  api.ratedOverviews[index],
-                                  api.ratedIDs[index]);
-                              if (api.likedTitles
-                                  .contains(api.ratedTitles[index])) {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Center(
-                                    child: Text('ALREADY LIKED!',
+                                    child: Text('DISLIKED!',
                                         style: GoogleFonts.getFont('Montserrat')
                                             .copyWith(
                                                 fontSize: 50,
@@ -364,42 +348,73 @@ class _TopRatedSeriesState extends State<TopRatedSeries> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10))),
                                 ));
-                              } else {
-                                api.addLiked(
+
+                                break;
+                              case CardSwipeOrientation.RIGHT:
+                                api.addViewed(
                                     api.ratedPostersLinks[index],
                                     api.ratedTitles[index],
                                     api.ratedOverviews[index],
                                     api.ratedIDs[index]);
+                                if (api.likedTitles
+                                    .contains(api.ratedTitles[index])) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Center(
+                                      child: Text('ALREADY LIKED!',
+                                          style:
+                                              GoogleFonts.getFont('Montserrat')
+                                                  .copyWith(
+                                                      fontSize: 50,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.red)),
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                    duration: Duration(milliseconds: 100),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                  ));
+                                } else {
+                                  api.addLiked(
+                                      api.ratedPostersLinks[index],
+                                      api.ratedTitles[index],
+                                      api.ratedOverviews[index],
+                                      api.ratedIDs[index]);
 
-                                print(api.ratedTitles[index]);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Center(
-                                    child: Text('LIKED!',
-                                        style: GoogleFonts.getFont('Montserrat')
-                                            .copyWith(
-                                                fontSize: 50,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.green)),
-                                  ),
-                                  backgroundColor: Colors.transparent,
-                                  duration: Duration(milliseconds: 100),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                ));
-                              }
-                              break;
-                            case CardSwipeOrientation.RECOVER:
-                              break;
-                            default:
-                              break;
-                          }
-                        },
+                                  print(api.ratedTitles[index]);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Center(
+                                      child: Text('LIKED!',
+                                          style:
+                                              GoogleFonts.getFont('Montserrat')
+                                                  .copyWith(
+                                                      fontSize: 50,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.green)),
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                    duration: Duration(milliseconds: 100),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                  ));
+                                }
+                                break;
+                              case CardSwipeOrientation.RECOVER:
+                                break;
+                              default:
+                                break;
+                            }
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             } else if (snapshot.hasError) {
               print('${snapshot.error}');
