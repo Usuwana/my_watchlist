@@ -54,7 +54,7 @@ android {
         //appCompatVersion "1.7.0"
         //versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        versionCode 3
+        versionCode 4
         multiDexEnabled true
     }
 
